@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- Cognizant Logo -->
+  <g transform="translate(10, 8)">
+    <!-- Arc/circle graphic -->
+    <path d="M22,5 C10,5,5,12,5,22 C5,32,12,37,22,37 M22,12 C14,12,11,17,11,22 C11,27,15,31,22,31" fill="none" stroke="#0033a0" stroke-width="4" stroke-linecap="round"/>
+    <path d="M22,18 C18,18,17,20,17,22 C17,24,19,25,22,25" fill="none" stroke="#00b0f0" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="45" y="32" fill="#0033a0" font-family="'Outfit', sans-serif" font-size="18" font-weight="800">Cognizant</text>
+</svg>

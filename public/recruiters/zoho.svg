@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- ZOHO Logo -->
+  <g transform="translate(10, 10)">
+    <!-- Red square -->
+    <rect x="0" y="15" width="14" height="14" fill="#E53935" rx="2" />
+    <!-- Blue square -->
+    <rect x="16" y="0" width="14" height="14" fill="#1E88E5" rx="2" />
+    <!-- Green square -->
+    <rect x="16" y="15" width="14" height="14" fill="#43A047" rx="2" />
+    <!-- Yellow square -->
+    <rect x="32" y="15" width="14" height="14" fill="#FDD835" rx="2" />
+  </g>
+  <text x="64" y="34" fill="#18110b" font-family="'Outfit', sans-serif" font-size="20" font-weight="900" letter-spacing="1">ZOHO</text>
+</svg>

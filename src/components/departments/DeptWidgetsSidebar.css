@@ -1,0 +1,237 @@
+.dept-widgets-sidebar {
+  background: #f8fafc;
+  border-left: 1px solid #e5e8f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.widget-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #0f172a;
+}
+
+.widget-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.testimonial-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.testimonial-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ec0a78;
+  padding: 2px;
+}
+
+.testimonial-text {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.testimonial-author {
+  text-align: center;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.widget-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.widget-btn {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.widget-btn:hover {
+  background: #ec0a78;
+  color: white;
+}
+
+.widget-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.widget-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.widget-dot.active {
+  background: #ec0a78;
+  width: 12px;
+  border-radius: 4px;
+}
+
+.info-widget h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.info-widget p {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.join-alumni-btn {
+  width: 100%;
+  padding: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.join-alumni-btn:hover {
+  background: #f1f5f9;
+}
+
+@media (max-width: 1024px) {
+  .dept-view-container {
+    grid-template-columns: 280px 1fr !important;
+  }
+  .dept-widgets-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .dept-view-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.floating-testimonial-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #ec0a78;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(236, 10, 120, 0.4);
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-testimonial-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(236, 10, 120, 0.5);
+  background: #d9096b;
+}
+
+.floating-btn-text {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.testimonial-overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dept-widgets-sidebar.floating-panel {
+  width: 320px;
+  height: 100%;
+  background: #f8fafc;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  /* Override border since it's floating */
+  border-left: none;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.close-panel-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.close-panel-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}

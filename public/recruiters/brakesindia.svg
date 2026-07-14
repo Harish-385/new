@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- Brakes India Logo -->
+  <g transform="translate(10, 10)">
+    <!-- Orange circle with BI -->
+    <circle cx="15" cy="15" r="14" fill="#E65F00"/>
+    <text x="7" y="21" fill="#ffffff" font-family="'Outfit', sans-serif" font-size="10" font-weight="900">BI</text>
+  </g>
+  <text x="45" y="32" fill="#005B94" font-family="'Outfit', sans-serif" font-size="16" font-weight="900" letter-spacing="0.5">Brakes India</text>
+</svg>

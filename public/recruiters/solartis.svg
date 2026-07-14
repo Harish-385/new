@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- Solartis Logo -->
+  <text x="15" y="32" fill="#0E5A94" font-family="'Outfit', sans-serif" font-size="22" font-weight="700" letter-spacing="-0.5">sol<tspan fill="#E53935">o</tspan>rtis</text>
+  <circle cx="56" cy="24" r="3" fill="#E53935"/>
+</svg>

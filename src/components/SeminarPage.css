@@ -1,0 +1,49 @@
+.seminar-page-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #334155;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 100vh;
+}
+
+.seminar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.seminar-heading-main {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #0f172a;
+  margin: 10px 0 10px 0;
+}
+
+.seminar-heading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-align: center;
+  color: #0f172a;
+  margin: 30px 0 15px 0;
+}
+
+.seminar-paragraph {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0 0 20px 0;
+  text-align: justify;
+}
+
+.seminar-full-image {
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+  display: block;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+}

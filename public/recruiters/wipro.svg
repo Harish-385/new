@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- Wipro Logo -->
+  <g transform="translate(10, 10)">
+    <!-- Multi-colored concentric circles of dots -->
+    <circle cx="15" cy="15" r="14" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="2,3"/>
+    <circle cx="15" cy="15" r="10" fill="none" stroke="#db2777" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <circle cx="15" cy="15" r="6" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="1,2"/>
+    <circle cx="15" cy="15" r="2" fill="#16a34a"/>
+  </g>
+  <text x="50" y="32" fill="#1e3a8a" font-family="'Outfit', sans-serif" font-size="20" font-weight="800">wipro</text>
+</svg>

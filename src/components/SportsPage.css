@@ -1,0 +1,172 @@
+.sports-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #334155;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 100vh;
+}
+
+/* Header */
+.sports-dept-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.sports-dept-header h1 {
+  font-size: 2.2rem;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.sports-dept-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Sections */
+.sports-section {
+  margin-bottom: 50px;
+}
+
+.sports-section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.sports-section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #3b82f6;
+  margin: 10px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* Faculty Grid */
+.sports-faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.sports-faculty-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  border: 1px solid #f1f5f9;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sports-faculty-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.sports-faculty-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.sports-faculty-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sports-faculty-info h3 {
+  font-size: 1.25rem;
+  color: #1e293b;
+  margin: 0 0 5px 0;
+}
+
+.sports-faculty-info h4 {
+  font-size: 1rem;
+  color: #3b82f6;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.sports-faculty-info p {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* About Text */
+.sports-about-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #475569;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+/* Gallery Grid */
+.sports-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.sports-gallery-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  aspect-ratio: 4 / 3;
+  background: #f1f5f9;
+}
+
+.sports-gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sports-gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 30px 20px 15px 20px;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.sports-gallery-card:hover img {
+  transform: scale(1.08);
+}
+
+.sports-gallery-overlay span {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- ECOSTER Logo -->
+  <g transform="translate(10, 15)">
+    <!-- Gear/leaf symbol -->
+    <path d="M6,10 C6,4,12,0,18,0 C18,6,12,12,6,10 Z" fill="#2E7D32"/>
+    <circle cx="18" cy="10" r="6" fill="none" stroke="#18110b" stroke-width="2.5"/>
+  </g>
+  <text x="38" y="28" fill="#18110b" font-family="'Outfit', sans-serif" font-size="18" font-weight="900" letter-spacing="1">ECOSTER</text>
+  <text x="38" y="36" fill="#737373" font-family="'Outfit', sans-serif" font-size="5" font-weight="800" letter-spacing="0.5">RECYCLING SYSTEMS</text>
+</svg>

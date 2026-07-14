@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" width="100%" height="100%">
+  <!-- Pinnacle Logo -->
+  <g transform="translate(10, 10)">
+    <!-- Colorful starburst -->
+    <path d="M15,2 L20,10 L28,15 L20,20 L15,28 L10,20 L2,15 L10,10 Z" fill="#E53935" opacity="0.9"/>
+    <path d="M15,5 L18,12 L25,15 L18,18 L15,25 L12,18 L5,15 L12,12 Z" fill="#FDD835" opacity="0.9"/>
+  </g>
+  <text x="45" y="32" fill="#737373" font-family="'Outfit', sans-serif" font-size="18" font-weight="700">pinnacle</text>
+</svg>
