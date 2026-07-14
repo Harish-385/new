@@ -1,4 +1,10 @@
 public/media/naac/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
 MA8491_TM_Assignment.pdf !text !filter !merge !diff
 test_2025_26.pdf !text !filter !merge !diff
 legacy/**/*.png !text !filter !merge !diff
