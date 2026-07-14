@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BookOpen, Edit, User } from 'lucide-react'
 import { useCMS } from './CMSContext'
 import { VisionMissionSection, DefaultSection } from './departments/DeptSubSections'
@@ -6,6 +6,7 @@ import type { ContentItem } from './departments/DeptSubSections'
 import { DeptWidgetsSidebar } from './departments/DeptWidgetsSidebar'
 
 interface IdeaLabPageProps {
+  initialKey?: string | null
   onClose: () => void
 }
 
@@ -67,9 +68,20 @@ function MembersSection({ content }: { content: ContentItem[] }) {
   )
 }
 
-export default function IdeaLabPage({}: IdeaLabPageProps) {
+export default function IdeaLabPage({ initialKey }: IdeaLabPageProps) {
   const { flatPages, isAuthenticated } = useCMS()
-  const [activeKey, setActiveKey] = useState<string>(IDEALAB_SUBPAGES[0].key)
+  const [activeKey, setActiveKey] = useState<string>(() => {
+    if (initialKey && IDEALAB_SUBPAGES.some((p) => p.key === initialKey)) {
+      return initialKey
+    }
+    return IDEALAB_SUBPAGES[0].key
+  })
+
+  useEffect(() => {
+    if (initialKey && IDEALAB_SUBPAGES.some((p) => p.key === initialKey)) {
+      setActiveKey(initialKey)
+    }
+  }, [initialKey])
 
   const pageData = flatPages[activeKey]
   const contentItems: ContentItem[] = pageData?.content || []

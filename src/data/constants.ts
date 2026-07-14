@@ -7,16 +7,14 @@ import {
 } from 'lucide-react'
 
 export const navItems = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '#about', menu: true },
   { label: 'Admission', href: '#admissions', menu: true },
-  { label: 'Departments', href: '#events', menu: true },
-  { label: 'Academics', href: '#events', menu: true },
-  { label: 'Infrastructure', href: '#infrastructure', menu: true },
+  { label: 'Departments', href: '#departments', menu: true },
   { label: 'Placements', href: '#placements', menu: true },
-  { label: 'Research', href: '#research', menu: true },
-  { label: 'Activities', href: '#activities', menu: true },
-  { label: 'IIIC', href: '#iiic', menu: true },
-  { label: 'IDEA Lab', href: '#idealab', menu: true },
+  { label: 'Infrastructure', href: '#infrastructure', menu: true },
+  { label: 'Campus Life & Gallery', href: '#activities', menu: true },
+  { label: 'Research & Innovation', href: '#research', menu: true },
   { label: 'Contact Us', href: '#contact' },
 ]
 

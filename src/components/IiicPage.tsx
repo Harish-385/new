@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BookOpen, Edit } from 'lucide-react'
 import { useCMS } from './CMSContext'
 import { DefaultSection, VisionMissionSection } from './departments/DeptSubSections'
@@ -6,6 +6,7 @@ import type { ContentItem } from './departments/DeptSubSections'
 import { DeptWidgetsSidebar } from './departments/DeptWidgetsSidebar'
 
 interface IiicPageProps {
+  initialKey?: string | null
   onClose: () => void
 }
 
@@ -17,9 +18,20 @@ const IIIC_SUBPAGES: { key: string; label: string }[] = [
   { key: 'iic-mou-activities', label: 'MoU Activities' },
 ]
 
-export default function IiicPage({}: IiicPageProps) {
+export default function IiicPage({ initialKey }: IiicPageProps) {
   const { flatPages, isAuthenticated } = useCMS()
-  const [activeKey, setActiveKey] = useState<string>(IIIC_SUBPAGES[0].key)
+  const [activeKey, setActiveKey] = useState<string>(() => {
+    if (initialKey && IIIC_SUBPAGES.some((p) => p.key === initialKey)) {
+      return initialKey
+    }
+    return IIIC_SUBPAGES[0].key
+  })
+
+  useEffect(() => {
+    if (initialKey && IIIC_SUBPAGES.some((p) => p.key === initialKey)) {
+      setActiveKey(initialKey)
+    }
+  }, [initialKey])
 
   const pageData = flatPages[activeKey]
   const contentItems: ContentItem[] = pageData?.content || []

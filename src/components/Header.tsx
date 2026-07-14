@@ -1,52 +1,58 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X, ArrowRight, BookOpen, GraduationCap, Briefcase, Trophy, Cpu, Phone, Mail, MapPin, User, type LucideIcon } from 'lucide-react'
+import { ChevronDown, Menu, X, ArrowRight, BookOpen, GraduationCap, Briefcase, Trophy, Cpu, Phone, Mail, MapPin, User, ExternalLink, type LucideIcon } from 'lucide-react'
 import { Button } from './ui/button'
 import { navItems } from '../data/constants'
 import { useNavigate } from 'react-router-dom'
 
 // Complete sub-menu items mapping categories to their scraped page keys
-const subMenus: Record<string, { label: string; key: string }[]> = {
+const subMenus: Record<string, { label: string; key?: string; href?: string; subItems?: { label: string; key: string }[] }[]> = {
   'About': [
     { label: 'Ramco Group', key: 'about-ramco-group' },
     { label: 'Trusts', key: 'about-trusts' },
     { label: 'Governing Council', key: 'about-governing-council' },
+    { label: 'Quality Policy', key: 'about-quality-policy' },
+    { label: 'Information Brochure', key: 'about-information-brochure' },
     { label: "Founder Chairman's Message", key: 'about-founder-chairman-message' },
     { label: "Chairman's Message", key: 'about-chairman-message' },
     { label: "Director's Message", key: 'about-director-message' },
     { label: "Principal's Message", key: 'about-principal-message' },
-    { label: 'Mandatory Disclosure', key: 'about-mandatory-disclosure' },
-    { label: 'Information Brochure', key: 'about-information-brochure' },
-    { label: 'Quality Policy', key: 'about-quality-policy' },
-    { label: 'RIT e-Projects', key: 'about-rit-e-projects' },
+    { 
+      label: 'e-Governance', 
+      subItems: [
+        { label: 'RIT e-Projects', key: 'about-rit-e-projects' }
+      ] 
+    },
   ],
   'Admission': [
     { label: 'Admission Policy / Eligibility', key: 'admission-policy' },
     { label: 'Online Enquiry Form', key: 'admission-enquiry' },
     { label: 'Scholarship / Incentives', key: 'admission-scholarship-incentives' },
-    { label: 'Govt. Scholarships', key: 'admission-scholarships-gov' },
+    { label: 'Central Govt. & State Govt. Scholarships', key: 'admission-scholarships-gov' },
     { label: 'Admission Brochure', key: 'admission-brochure' },
+    { label: 'Academic Schedule', key: 'academics-schedule' },
+    { label: 'Academic Curriculum and Syllabus', key: 'academics-curriculum' },
+    { label: 'AU Regulation', key: 'academics-regulation' },
   ],
   'Departments': [
     { label: 'Civil Engineering', key: 'departments-civil' },
-    { label: 'Computer Science & Engineering', key: 'departments-cse' },
-    { label: 'Electrical & Electronics Engg', key: 'departments-eee' },
-    { label: 'Electronics & Communication Engg', key: 'departments-ece' },
+    { label: 'Computer Science & Engg.', key: 'departments-cse' },
+    { label: 'Electrical & Electronics Engg.', key: 'departments-eee' },
+    { label: 'Electronics & Communication Engg.', key: 'departments-ece' },
     { label: 'Mechanical Engineering', key: 'departments-mech' },
-    { label: 'B.Tech AI & Data Science', key: 'departments-aids' },
-    { label: 'B.Tech CS & Business Systems', key: 'departments-csbs' },
-    { label: 'B.Tech Information Technology', key: 'departments-it' },
     { label: 'CSE (AI & ML)', key: 'departments-aiml' },
-    { label: 'CSE (Cyber Security)', key: 'departments-csec' },
-    { label: 'Physics (S&H)', key: 'departments-physics' },
-    { label: 'Chemistry (S&H)', key: 'departments-chemistry' },
-    { label: 'Mathematics (S&H)', key: 'departments-maths' },
-    { label: 'English (S&H)', key: 'departments-english' },
-  ],
-  'Academics': [
-    { label: 'Academic Schedule', key: 'academics-schedule' },
-    { label: 'Curriculum & Syllabus', key: 'academics-curriculum' },
-    { label: 'Anna Univ Regulation', key: 'academics-regulation' },
+    { label: 'B.Tech AI and Data Science', key: 'departments-aids' },
+    { label: 'B.Tech Computer Science and Business Systems', key: 'departments-csbs' },
+    { label: 'B.Tech Information Technology', key: 'departments-it' },
+    {
+      label: 'Science & Humanities',
+      subItems: [
+        { label: 'Physics', key: 'departments-physics' },
+        { label: 'Chemistry', key: 'departments-chemistry' },
+        { label: 'Mathematics', key: 'departments-maths' },
+        { label: 'English', key: 'departments-english' },
+      ]
+    }
   ],
   'Placements': [
     { label: 'Training & Placement Centre', key: 'placements-training-centre' },
@@ -55,8 +61,8 @@ const subMenus: Record<string, { label: string; key: string }[]> = {
     { label: 'Placement Procedure', key: 'placements-procedure' },
     { label: 'Hiring Process', key: 'placements-hiring-process' },
     { label: 'Placement Training', key: 'placements-training' },
-    { label: 'Placement List (2024-2025)', key: 'placements-list' },
-    { label: 'Cisco Ideathon', key: 'placements-ideathon' },
+    { label: 'Placement Statistics (with year filter on-page: 2016–2025)', key: 'placements-list' },
+    { label: 'Ideathon', key: 'placements-ideathon' },
     { label: 'Placement Prospectus', key: 'placements-prospectus' },
     { label: "Placement MoU's", key: 'placements-mous' },
   ],
@@ -64,21 +70,21 @@ const subMenus: Record<string, { label: string; key: string }[]> = {
     { label: 'Library', key: 'infrastructure-library' },
     { label: 'Hostel', key: 'infrastructure-hostel' },
     { label: 'Transport', key: 'infrastructure-transport' },
-    { label: 'Seminar Hall/VC', key: 'infrastructure-seminar-hall' },
+    { label: 'Seminar Hall / Video Conference', key: 'infrastructure-seminar-hall' },
     { label: 'Cafeteria', key: 'infrastructure-cafeteria' },
     { label: 'Sports', key: 'infrastructure-sports' },
     { label: 'Gym', key: 'infrastructure-gym' },
-    { label: 'Health Centre', key: 'infrastructure-health-centre' },
+    { label: 'Health Centre / Counselling', key: 'infrastructure-health-centre' },
     { label: 'Stationery Store', key: 'infrastructure-stationery' },
     { label: 'Outstanding Facilities', key: 'infrastructure-outstanding' },
-    { label: 'Student Clubs & Societies', key: 'infrastructure-clubs' },
     { label: 'Auditorium', key: 'infrastructure-auditorium' },
     { label: 'ATM Facility', key: 'infrastructure-atm' },
   ],
-  'Activities': [
-    { label: 'Awards & Achievements', key: 'activities-awards' },
+  'Campus Life & Gallery': [
+    { label: 'Awards and Achievements', key: 'activities-awards' },
     { label: 'Professional Societies', key: 'activities-societies' },
     { label: 'Clubs & NSS', key: 'activities-clubs-nss' },
+    { label: 'Student Clubs & Societies', key: 'infrastructure-clubs' },
     { label: 'EDC/NISP', key: 'activities-edc' },
     { label: 'College Magazine', key: 'activities-magazine' },
     { label: 'Weekly News Letter', key: 'activities-newsletter' },
@@ -87,33 +93,40 @@ const subMenus: Record<string, { label: string; key: string }[]> = {
     { label: 'Extension Activities', key: 'activities-extension' },
     { label: 'RIT-RedHat Academy', key: 'activities-redhat' },
     { label: 'Higher Education Details', key: 'activities-higher-education' },
-    { label: 'OER Resources', key: 'activities-oer' },
+    { label: 'Open Educational Resources (OER)', key: 'activities-oer' },
+    { label: 'Event Gallery', href: 'https://www.ritrjpm.ac.in/gallery/event-gallery.php' },
+    { label: 'Campus Gallery', href: 'https://www.ritrjpm.ac.in/gallery/campus-gallery.php' },
   ],
-  'Research': [
+  'Research & Innovation': [
     { label: 'Overview', key: 'research-overview' },
     { label: 'RC Policy', key: 'research-policy' },
-    { label: 'PhD Awarded', key: 'research-academic-phd-awarded' },
-    { label: 'Publications', key: 'research-academic-publications' },
-    { label: 'Sponsored Projects', key: 'research-sponsored-projects' },
+    {
+      label: 'Academic Research',
+      subItems: [
+        { label: 'PhD Awarded', key: 'research-academic-phd-awarded' },
+        { label: 'Publications', key: 'research-academic-publications' },
+      ]
+    },
+    { label: 'Funded Research (Sponsored Projects)', key: 'research-sponsored-projects' },
     { label: 'IPR', key: 'research-ipr' },
-    { label: 'AU Recognized Supervisors', key: 'research-supervisors' },
+    {
+      label: 'AU Recognized Research Centres',
+      subItems: [
+        { label: 'AU Recognized Supervisors', key: 'research-supervisors' },
+      ]
+    },
     { label: 'Consultancy', key: 'research-consultancy' },
     { label: 'Research Incentives', key: 'research-incentives' },
-    { label: 'Research Activities', key: 'research-activities' },
-  ],
-  'IIIC': [
-    { label: 'Vision, Mission & Quality', key: 'iic-vision-mission' },
-    { label: 'Department Coordinators', key: 'iic-coordinators' },
-    { label: 'Institute-Industry MoU', key: 'iic-industry-mou' },
-    { label: 'Institute-Institute MoU', key: 'iic-institute-mou' },
-    { label: 'MoU Activities', key: 'iic-mou-activities' },
-  ],
-  'IDEA Lab': [
-    { label: 'Vision of AICTE IDEA LAB', key: 'idealab-vision' },
-    { label: 'Members', key: 'idealab-members' },
-    { label: 'Facilities', key: 'idealab-facilities' },
-    { label: 'Activities/Events', key: 'idealab-activities' },
-    { label: 'Tender Details', key: 'idealab-tenders' },
+    { label: 'Vision, Mission & Quality Objectives (IIIC)', key: 'iic-vision-mission' },
+    { label: 'Department Level Co-ordinators (IIIC)', key: 'iic-coordinators' },
+    { label: 'Institute-Industry MoU (IIIC)', key: 'iic-industry-mou' },
+    { label: 'Institute-Institute MoU (IIIC)', key: 'iic-institute-mou' },
+    { label: 'MoU Activities (IIIC)', key: 'iic-mou-activities' },
+    { label: 'IDEA Lab Vision', key: 'idealab-vision' },
+    { label: 'IDEA Lab Members', key: 'idealab-members' },
+    { label: 'IDEA Lab Facilities', key: 'idealab-facilities' },
+    { label: 'IDEA Lab Activities/Events', key: 'idealab-activities' },
+    { label: 'IDEA Lab Tender Details', key: 'idealab-tenders' },
   ]
 }
 
@@ -125,14 +138,14 @@ const menuHighlights: Record<string, { title: string; desc: string; stat?: strin
   'Academics': { title: 'Industry-Aligned', desc: 'Innovative curriculum focused on building practical, job-ready capabilities.', icon: Trophy },
   'Placements': { title: 'Outstanding Outcomes', desc: 'Join top MNC recruits with industry-leading CTC options.', stat: '92% Placement Rate', icon: Briefcase },
   'Infrastructure': { title: 'Smart Green Campus', desc: 'World-class academic buildings, advanced laboratories, and hostels.', stat: '100% Eco-Friendly', icon: GraduationCap },
-  'Activities': { title: 'Vibrant Campus Life', desc: 'Participate in professional societies, technical clubs, NCC and sports.', icon: Trophy },
-  'Research': { title: 'Innovation Focus', desc: 'Funded projects, consultancy services and active research centers.', stat: '120+ Awards', icon: Cpu },
+  'Campus Life & Gallery': { title: 'Vibrant Campus Life', desc: 'Participate in professional societies, technical clubs, NCC and sports.', icon: Trophy },
+  'Research & Innovation': { title: 'Innovation Focus', desc: 'Funded projects, consultancy services and active research centers.', stat: '120+ Awards', icon: Cpu },
   'IIIC': { title: 'Active Industry Connect', desc: 'MoUs and joint initiatives with prominent industrial companies.', icon: Briefcase },
   'IDEA Lab': { title: 'AICTE Sponsored', desc: 'First-of-its-kind digital prototyping lab supporting student innovators.', stat: '₹1.1 Crore Lab', icon: Cpu }
 }
 
 interface HeaderProps {
-  onSelectPage: (key: string) => void
+  onSelectPage: (key: string | null) => void
 }
 
 export default function Header({ onSelectPage }: HeaderProps) {
@@ -165,7 +178,11 @@ export default function Header({ onSelectPage }: HeaderProps) {
 
         <nav className="navbar unified-nav" aria-label="Primary navigation">
           {/* Left: Brand Logo & Text */}
-          <div className="nav-brand" onClick={() => onSelectPage('Home')}>
+          <div className="nav-brand" onClick={() => {
+            onSelectPage(null)
+            navigate('/')
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}>
             <img src="/ritlogo.png" className="nav-logo" alt="RIT Logo" />
             <div className="brand-divider" />
             <div className="brand-text-wrapper">
@@ -177,8 +194,7 @@ export default function Header({ onSelectPage }: HeaderProps) {
           {/* Center: Navigation Links */}
           <div className="nav-links">
             {navItems.map((item) => {
-              const menuKey = item.label === 'IIIC' ? 'IIIC' : item.label
-              const items = subMenus[menuKey]
+              const items = subMenus[item.label]
 
               return (
                 <div className="nav-item-container" key={item.label}>
@@ -186,6 +202,27 @@ export default function Header({ onSelectPage }: HeaderProps) {
                     href={item.href}
                     className={activeSubmenu === item.label ? 'hover-active' : ''}
                     onClick={(e) => {
+                      if (item.label === 'Home') {
+                        e.preventDefault()
+                        onSelectPage(null)
+                        navigate('/')
+                        setActiveSubmenu(null)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                        return
+                      }
+                      if (item.label === 'Contact Us') {
+                        e.preventDefault()
+                        onSelectPage(null)
+                        navigate('/')
+                        setActiveSubmenu(null)
+                        setTimeout(() => {
+                          const contactEl = document.getElementById('contact')
+                          if (contactEl) {
+                            contactEl.scrollIntoView({ behavior: 'smooth' })
+                          }
+                        }, 100)
+                        return
+                      }
                       if (item.label === 'Departments') {
                         e.preventDefault()
                         navigate('/departments')
@@ -227,7 +264,7 @@ export default function Header({ onSelectPage }: HeaderProps) {
 
       {/* Glassmorphic Side Navigation Drawer */}
       <AnimatePresence>
-        {activeSubmenu && subMenus[activeSubmenu === 'IIIC' ? 'IIIC' : activeSubmenu] && (
+        {activeSubmenu && subMenus[activeSubmenu] && (
           <>
             {/* Backdrop overlay */}
             <motion.div
@@ -292,13 +329,56 @@ export default function Header({ onSelectPage }: HeaderProps) {
                 <div className="drawer-links-section">
                   <h3>Available Sections</h3>
                   <div className="drawer-links-list">
-                    {subMenus[activeSubmenu === 'IIIC' ? 'IIIC' : activeSubmenu].map((subItem, index) => {
+                    {subMenus[activeSubmenu].map((subItem, index) => {
                       const itemNumber = String(index + 1).padStart(2, '0')
+                      
+                      if (subItem.subItems) {
+                        return (
+                          <div key={subItem.label} className="drawer-subgroup">
+                            <div className="drawer-subgroup-title">
+                              {subItem.label}
+                            </div>
+                            <div className="drawer-subgroup-items">
+                              {subItem.subItems.map((lvl2Item) => (
+                                <button
+                                  key={lvl2Item.key}
+                                  onClick={() => {
+                                    onSelectPage(lvl2Item.key)
+                                    setActiveSubmenu(null)
+                                  }}
+                                  className="drawer-dropdown-link level-2-link"
+                                >
+                                  <span className="text">{lvl2Item.label}</span>
+                                  <ArrowRight size={14} className="link-arrow" />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )
+                      }
+
+                      if (subItem.href) {
+                        return (
+                          <a
+                            key={subItem.label}
+                            href={subItem.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="drawer-dropdown-link"
+                            onClick={() => setActiveSubmenu(null)}
+                          >
+                            <span className="link-number">{itemNumber}</span>
+                            <span className="text">{subItem.label}</span>
+                            <ExternalLink size={16} className="link-external-icon" style={{ marginLeft: 'auto', opacity: 0.6 }} />
+                          </a>
+                        )
+                      }
+
                       return (
                         <button
                           key={subItem.key}
                           onClick={() => {
-                            onSelectPage(subItem.key)
+                            if (subItem.key) onSelectPage(subItem.key)
                             setActiveSubmenu(null)
                           }}
                           className="drawer-dropdown-link"
@@ -336,8 +416,7 @@ export default function Header({ onSelectPage }: HeaderProps) {
 
             <div className="overlay-links-container">
               {navItems.map((item) => {
-                const menuKey = item.label === 'IIIC' ? 'IIIC' : item.label
-                const items = subMenus[menuKey]
+                const items = subMenus[item.label]
                 const isExpanded = mobileExpanded[item.label]
 
                 return (
@@ -353,23 +432,86 @@ export default function Header({ onSelectPage }: HeaderProps) {
                         </button>
                         {isExpanded && (
                           <div className="mobile-sub-links">
-                            {items.map((subItem) => (
-                              <button
-                                key={subItem.key}
-                                onClick={() => {
-                                  onSelectPage(subItem.key)
-                                  setMenuOpen(false)
-                                }}
-                                className="mobile-sub-link"
-                              >
-                                {subItem.label}
-                              </button>
-                            ))}
+                            {items.map((subItem) => {
+                              if (subItem.subItems) {
+                                return (
+                                  <div key={subItem.label} className="mobile-subgroup" style={{ width: '100%' }}>
+                                    <div className="mobile-subgroup-title" style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', color: '#64748b', padding: '6px 12px 2px' }}>
+                                      {subItem.label}
+                                    </div>
+                                    <div className="mobile-subgroup-items" style={{ paddingLeft: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                      {subItem.subItems.map((lvl2) => (
+                                        <button
+                                          key={lvl2.key}
+                                          onClick={() => {
+                                            onSelectPage(lvl2.key)
+                                            setMenuOpen(false)
+                                          }}
+                                          className="mobile-sub-link"
+                                          style={{ fontSize: '13px', opacity: 0.85 }}
+                                        >
+                                          • {lvl2.label}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )
+                              }
+                              if (subItem.href) {
+                                return (
+                                  <a
+                                    key={subItem.label}
+                                    href={subItem.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mobile-sub-link"
+                                    onClick={() => setMenuOpen(false)}
+                                    style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                                  >
+                                    {subItem.label} <ExternalLink size={12} />
+                                  </a>
+                                )
+                              }
+                              return (
+                                <button
+                                  key={subItem.key}
+                                  onClick={() => {
+                                    if (subItem.key) onSelectPage(subItem.key)
+                                    setMenuOpen(false)
+                                  }}
+                                  className="mobile-sub-link"
+                                >
+                                  {subItem.label}
+                                </button>
+                              )
+                            })}
                           </div>
                         )}
                       </>
                     ) : (
-                      <a href={item.href} onClick={() => setMenuOpen(false)} className="mobile-group-title-link">
+                      <a
+                        href={item.href}
+                        onClick={(e) => {
+                          setMenuOpen(false)
+                          if (item.label === 'Home') {
+                            e.preventDefault()
+                            onSelectPage(null)
+                            navigate('/')
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                          } else if (item.label === 'Contact Us') {
+                            e.preventDefault()
+                            onSelectPage(null)
+                            navigate('/')
+                            setTimeout(() => {
+                              const contactEl = document.getElementById('contact')
+                              if (contactEl) {
+                                contactEl.scrollIntoView({ behavior: 'smooth' })
+                              }
+                            }, 100)
+                          }
+                        }}
+                        className="mobile-group-title-link"
+                      >
                         {item.label}
                       </a>
                     )}

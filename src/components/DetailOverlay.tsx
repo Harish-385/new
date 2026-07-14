@@ -49,15 +49,34 @@ interface DetailOverlayProps {
   onNavigate?: (key: string) => void
 }
 
-const sidebarSections: Record<string, { prefix: string; navLabel: string; icon: LucideIcon; links: { label: string; key: string; isHeader?: boolean }[] }> = {
+const sidebarSections: Record<string, { prefix: string; navLabel: string; icon: LucideIcon; links: { label: string; key: string; isHeader?: boolean; href?: string }[] }> = {
+  about: {
+    prefix: 'about-',
+    navLabel: 'About & Governance',
+    icon: ShieldCheck,
+    links: [
+      { label: 'Ramco Group', key: 'about-ramco-group' },
+      { label: 'Trusts', key: 'about-trusts' },
+      { label: 'Governing Council', key: 'about-governing-council' },
+      { label: 'Quality Policy', key: 'about-quality-policy' },
+      { label: 'Information Brochure', key: 'about-information-brochure' },
+      { label: "Founder Chairman's Message", key: 'about-founder-chairman-message' },
+      { label: "Chairman's Message", key: 'about-chairman-message' },
+      { label: "Director's Message", key: 'about-director-message' },
+      { label: "Principal's Message", key: 'about-principal-message' },
+      { label: 'e-Governance', key: 'about-egovernance-header', isHeader: true },
+      { label: 'RIT e-Projects', key: 'about-rit-e-projects' }
+    ]
+  },
   activities: {
     prefix: 'activities-',
     navLabel: 'Activities',
     icon: Award,
     links: [
-      { label: 'Awards & Achievements', key: 'activities-awards' },
+      { label: 'Awards and Achievements', key: 'activities-awards' },
       { label: 'Professional Societies', key: 'activities-societies' },
       { label: 'Clubs & NSS', key: 'activities-clubs-nss' },
+      { label: 'Student Clubs & Societies', key: 'infrastructure-clubs' },
       { label: 'EDC/NISP', key: 'activities-edc' },
       { label: 'College Magazine', key: 'activities-magazine' },
       { label: 'Weekly News Letter', key: 'activities-newsletter' },
@@ -66,24 +85,37 @@ const sidebarSections: Record<string, { prefix: string; navLabel: string; icon: 
       { label: 'Extension Activities', key: 'activities-extension' },
       { label: 'RIT-RedHat Academy', key: 'activities-redhat' },
       { label: 'Higher Education Details', key: 'activities-higher-education' },
-      { label: 'OER Resources', key: 'activities-oer' },
+      { label: 'Open Educational Resources (OER)', key: 'activities-oer' },
+      { label: 'Event Gallery', key: 'activities-event-gallery', href: 'https://www.ritrjpm.ac.in/gallery/event-gallery.php' },
+      { label: 'Campus Gallery', key: 'activities-campus-gallery', href: 'https://www.ritrjpm.ac.in/gallery/campus-gallery.php' },
     ],
   },
   research: {
     prefix: 'research-',
-    navLabel: 'Research',
+    navLabel: 'Research & Innovation',
     icon: Cpu,
     links: [
       { label: 'Overview', key: 'research-overview' },
       { label: 'RC Policy', key: 'research-policy' },
-      { label: 'PhD Awarded', key: 'research-phd-awarded' },
-      { label: 'Publications', key: 'research-publications' },
-      { label: 'Sponsored Projects', key: 'research-sponsored-projects' },
+      { label: 'Academic Research', key: 'research-academic-header', isHeader: true },
+      { label: 'PhD Awarded', key: 'research-academic-phd-awarded' },
+      { label: 'Publications', key: 'research-academic-publications' },
+      { label: 'Funded Research (Sponsored Projects)', key: 'research-sponsored-projects' },
       { label: 'IPR', key: 'research-ipr' },
+      { label: 'AU Recognized Research Centres', key: 'research-au-recognized-header', isHeader: true },
       { label: 'AU Recognized Supervisors', key: 'research-supervisors' },
       { label: 'Consultancy', key: 'research-consultancy' },
       { label: 'Research Incentives', key: 'research-incentives' },
-      { label: 'Research Activities', key: 'research-activities' },
+      { label: 'Vision, Mission & Quality Objectives (IIIC)', key: 'iic-vision-mission' },
+      { label: 'Department Level Co-ordinators (IIIC)', key: 'iic-coordinators' },
+      { label: 'Institute-Industry MoU (IIIC)', key: 'iic-industry-mou' },
+      { label: 'Institute-Institute MoU (IIIC)', key: 'iic-institute-mou' },
+      { label: 'MoU Activities (IIIC)', key: 'iic-mou-activities' },
+      { label: 'IDEA Lab Vision', key: 'idealab-vision' },
+      { label: 'IDEA Lab Members', key: 'idealab-members' },
+      { label: 'IDEA Lab Facilities', key: 'idealab-facilities' },
+      { label: 'IDEA Lab Activities/Events', key: 'idealab-activities' },
+      { label: 'IDEA Lab Tender Details', key: 'idealab-tenders' },
     ],
   },
   placements: {
@@ -97,7 +129,7 @@ const sidebarSections: Record<string, { prefix: string; navLabel: string; icon: 
       { label: 'Placement Procedure', key: 'placements-procedure' },
       { label: 'Hiring Process', key: 'placements-hiring-process' },
       { label: 'Placement Training', key: 'placements-training' },
-      { label: 'Placement List', key: 'placements-list-header', isHeader: true },
+      { label: 'Placement Statistics (2016–2025)', key: 'placements-list-header', isHeader: true },
       { label: '2024-2025', key: 'placements-list' },
       { label: '2023-2024', key: 'placements-list-23-24' },
       { label: '2022-2023', key: 'placements-list-22-23' },
@@ -191,13 +223,13 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
         initial['placements-ideathon-header'] = true
       }
       if (pageKey.startsWith('research-academic-')) {
-        initial['research-academic'] = true
-      }
-      if (pageKey === 'research-sponsored-projects') {
-        initial['research-funded-research'] = true
+        initial['research-academic-header'] = true
       }
       if (pageKey === 'research-supervisors') {
-        initial['research-au-recognized-research-centres'] = true
+        initial['research-au-recognized-header'] = true
+      }
+      if (pageKey === 'about-rit-e-projects') {
+        initial['about-egovernance-header'] = true
       }
     }
     return initial
@@ -220,13 +252,13 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
         setExpandedSections(prev => ({ ...prev, 'placements-ideathon-header': true }))
       }
       if (pageKey.startsWith('research-academic-')) {
-        setExpandedSections(prev => ({ ...prev, 'research-academic': true }))
-      }
-      if (pageKey === 'research-sponsored-projects') {
-        setExpandedSections(prev => ({ ...prev, 'research-funded-research': true }))
+        setExpandedSections(prev => ({ ...prev, 'research-academic-header': true }))
       }
       if (pageKey === 'research-supervisors') {
-        setExpandedSections(prev => ({ ...prev, 'research-au-recognized-research-centres': true }))
+        setExpandedSections(prev => ({ ...prev, 'research-au-recognized-header': true }))
+      }
+      if (pageKey === 'about-rit-e-projects') {
+        setExpandedSections(prev => ({ ...prev, 'about-egovernance-header': true }))
       }
     } else {
       document.body.style.overflow = ''
@@ -713,7 +745,7 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
 
   return (
     <AnimatePresence>
-      {pageKey && (
+      {pageKey && pageKey !== 'Home' && (
         <motion.div
           className="detail-overlay-backdrop"
           initial={{ opacity: 0 }}
@@ -752,7 +784,6 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
 
                         while (i < links.length) {
                           const item = links[i]
-                          
                           if (item.isHeader) {
                             const headerItem = item
                             const subItems: typeof links = []
@@ -762,9 +793,9 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                               const isSub = nextItem.key.startsWith('placements-list-') || 
                                             nextItem.key === 'placements-list' || 
                                             nextItem.key === 'placements-ideathon' ||
-                                            (headerItem.key === 'research-academic' && nextItem.key.startsWith('research-academic-')) ||
-                                            (headerItem.key === 'research-funded-research' && nextItem.key === 'research-sponsored-projects') ||
-                                            (headerItem.key === 'research-au-recognized-research-centres' && nextItem.key === 'research-supervisors')
+                                            (headerItem.key === 'research-academic-header' && nextItem.key.startsWith('research-academic-')) ||
+                                            (headerItem.key === 'research-au-recognized-header' && nextItem.key === 'research-supervisors') ||
+                                            (headerItem.key === 'about-egovernance-header' && nextItem.key === 'about-rit-e-projects')
                               if (isSub) {
                                 subItems.push(nextItem)
                                 i++
@@ -772,10 +803,10 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                                 break
                               }
                             }
-                            
-                            const isExpanded = expandedSections[headerItem.key] || false
+
                             const hasActiveChild = subItems.some(subItem => pageKey === subItem.key)
-                            
+                            const isExpanded = expandedSections[headerItem.key] || false
+
                             rendered.push(
                               <div
                                 key={headerItem.key}
@@ -823,17 +854,31 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                             )
                           } else {
                             rendered.push(
-                              <button
-                                key={item.key}
-                                className={`dept-sidebar-link ${pageKey === item.key ? 'active' : ''}`}
-                                onClick={() => {
-                                  onNavigate?.(item.key)
-                                  setExpandedSections({})
-                                }}
-                              >
-                                <span className="bullet">»</span>
-                                <span className="label-text">{item.label}</span>
-                              </button>
+                              item.href ? (
+                                <a
+                                  key={item.key}
+                                  href={item.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="dept-sidebar-link"
+                                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none' }}
+                                >
+                                  <span className="label-text" style={{ paddingLeft: '8px' }}>{item.label}</span>
+                                  <ExternalLink size={12} style={{ opacity: 0.6, marginRight: '8px', transform: 'none' }} />
+                                </a>
+                              ) : (
+                                <button
+                                  key={item.key}
+                                  className={`dept-sidebar-link ${pageKey === item.key ? 'active' : ''}`}
+                                  onClick={() => {
+                                    onNavigate?.(item.key)
+                                    setExpandedSections({})
+                                  }}
+                                >
+                                  <span className="bullet">»</span>
+                                  <span className="label-text">{item.label}</span>
+                                </button>
+                              )
                             )
                             i++
                           }
@@ -952,6 +997,45 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                           <h4>Institutional Patronage</h4>
                           <p>Ramco Institute of Technology (RIT) is fully supported and patronized by the Ramco group to create highly skilled, quality Engineers for future needs.</p>
                         </div>
+                      </div>
+                    </div>
+                  ) : pageKey === 'about-governing-council' ? (
+                    <div className="detail-governing-council-layout">
+                      <div className="governing-council-hero">
+                        <h2>Governing Council Members</h2>
+                        <p>Our distinguished governing body steering Ramco Institute of Technology toward excellence in technical education and research.</p>
+                      </div>
+
+                      <div className="governing-council-grid">
+                        {(() => {
+                          const tableItem = contentItems.find(item => item.type === 'table')
+                          const rows = tableItem?.rows || []
+                          const members = rows.slice(1).map((row) => {
+                            const getStr = (val: any): string => {
+                              if (!val) return ''
+                              if (typeof val === 'string') return val
+                              return val.text || ''
+                            }
+                            return {
+                              sno: getStr(row[0]),
+                              name: getStr(row[1]),
+                              position: getStr(row[2]),
+                              occupation: getStr(row[3])
+                            }
+                          })
+
+                          return members.map((member, idx) => (
+                            <div key={idx} className="governing-council-card">
+                              <div className="gc-card-header">
+                                <span className={`gc-position-badge position-${member.position.toLowerCase().replace(/[^a-z]/g, '')}`}>
+                                  {decodeEntities(member.position)}
+                                </span>
+                              </div>
+                              <h3 className="gc-member-name">{decodeEntities(member.name)}</h3>
+                              <p className="gc-member-occupation">{decodeEntities(member.occupation)}</p>
+                            </div>
+                          ))
+                        })()}
                       </div>
                     </div>
                   ) : pageKey === 'about-trusts' ? (
@@ -1434,10 +1518,6 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                         </div>
                       </div>
                     </div>
-                  ) : isSidebarStyledPage ? (
-                    <div className="detail-awards-layout">
-                      {renderActivityContent(contentItems)}
-                    </div>
                   ) : pageKey === 'about-quality-policy' ? (
                     <div className="detail-quality-policy-layout">
                       <div className="quality-policy-hero-card">
@@ -1505,7 +1585,8 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                       </div>
 
                       <div className="e-projects-grid">
-                        <a href="https://erp.ramcoad.com" target="_blank" rel="noopener noreferrer" className="e-project-card card-erp">
+                        {/* 1. ERP */}
+                        <a href="http://erp.ramcoad.com" target="_blank" rel="noopener noreferrer" className="e-project-card card-erp">
                           <div className="e-project-icon-wrapper">
                             <Database size={24} />
                           </div>
@@ -1522,40 +1603,43 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                           </div>
                         </a>
 
-                        <a href="https://code2day.ramcoad.com" target="_blank" rel="noopener noreferrer" className="e-project-card card-code2day">
+                        {/* 2. Online Application Form */}
+                        <a href="https://www.ritrjpm.ac.in/onlineapplication/" target="_blank" rel="noopener noreferrer" className="e-project-card card-admission">
                           <div className="e-project-icon-wrapper">
-                            <Terminal size={24} />
+                            <GraduationCap size={24} />
                           </div>
                           <div className="e-project-info">
                             <div className="e-project-title-row">
-                              <h3>Code2Day Coding Platform</h3>
-                              <span className="e-project-badge">Learning</span>
+                              <h3>Online Application Form</h3>
+                              <span className="e-project-badge">Admissions</span>
                             </div>
-                            <span className="e-project-domain">code2day.ramcoad.com</span>
-                            <p>Interactive programming and coding platform designed for RIT students to hone their algorithmic and software engineering skills.</p>
+                            <span className="e-project-domain">ritrjpm.ac.in/onlineapplication</span>
+                            <p>Official online admissions portal for fresh and transfer applicants to submit registrations.</p>
                           </div>
                           <div className="e-project-arrow">
                             <ArrowRight size={18} />
                           </div>
                         </a>
 
-                        <a href="https://ritcanvas.in" target="_blank" rel="noopener noreferrer" className="e-project-card card-canvas">
+                        {/* 3. Online Grievance System */}
+                        <a href="https://ritrjpm.edugrievance.com/" target="_blank" rel="noopener noreferrer" className="e-project-card card-grievance">
                           <div className="e-project-icon-wrapper">
-                            <LayoutGrid size={24} />
+                            <LifeBuoy size={24} />
                           </div>
                           <div className="e-project-info">
                             <div className="e-project-title-row">
-                              <h3>RIT Canvas (LMS)</h3>
-                              <span className="e-project-badge">LMS</span>
+                              <h3>Online Grievance Redressal System</h3>
+                              <span className="e-project-badge font-rose">Support</span>
                             </div>
-                            <span className="e-project-domain">ritcanvas.in</span>
-                            <p>Interactive Learning Management System hosting course resources, digital assignments, syllabus tracks, and academic discussions.</p>
+                            <span className="e-project-domain">ritrjpm.edugrievance.com</span>
+                            <p>Official transparency portal allowing students and staff to raise grievances, submit suggestions, and track resolution progress.</p>
                           </div>
                           <div className="e-project-arrow">
                             <ArrowRight size={18} />
                           </div>
                         </a>
 
+                        {/* 4. Online Fee Payment Portal */}
                         <a href="https://epayments.in.worldline.com/ritrjpm?swith=rollnumber" target="_blank" rel="noopener noreferrer" className="e-project-card card-fees">
                           <div className="e-project-icon-wrapper">
                             <CreditCard size={24} />
@@ -1573,23 +1657,46 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                           </div>
                         </a>
 
-                        <a href="https://ritrjpm.edugrievance.com/" target="_blank" rel="noopener noreferrer" className="e-project-card card-grievance">
+                        {/* 5. Code2day */}
+                        <a href="http://code2day.ramcoad.com" target="_blank" rel="noopener noreferrer" className="e-project-card card-code2day">
                           <div className="e-project-icon-wrapper">
-                            <LifeBuoy size={24} />
+                            <Terminal size={24} />
                           </div>
                           <div className="e-project-info">
                             <div className="e-project-title-row">
-                              <h3>Grievance Redressal System</h3>
-                              <span className="e-project-badge font-rose">Transparency</span>
+                              <h3>Code2Day Coding Platform</h3>
+                              <span className="e-project-badge">Learning</span>
                             </div>
-                            <span className="e-project-domain">ritrjpm.edugrievance.com</span>
-                            <p>Official transparency portal allowing students and staff to raise grievances, submit suggestions, and track resolution progress.</p>
+                            <span className="e-project-domain">code2day.ramcoad.com</span>
+                            <p>Interactive programming and coding platform designed for RIT students to hone their algorithmic and software engineering skills.</p>
+                          </div>
+                          <div className="e-project-arrow">
+                            <ArrowRight size={18} />
+                          </div>
+                        </a>
+
+                        {/* 6. RIT Canvas */}
+                        <a href="https://ritcanvas.in" target="_blank" rel="noopener noreferrer" className="e-project-card card-canvas">
+                          <div className="e-project-icon-wrapper">
+                            <LayoutGrid size={24} />
+                          </div>
+                          <div className="e-project-info">
+                            <div className="e-project-title-row">
+                              <h3>RIT Canvas (LMS)</h3>
+                              <span className="e-project-badge">LMS</span>
+                            </div>
+                            <span className="e-project-domain">ritcanvas.in</span>
+                            <p>Interactive Learning Management System hosting course resources, digital assignments, syllabus tracks, and academic discussions.</p>
                           </div>
                           <div className="e-project-arrow">
                             <ArrowRight size={18} />
                           </div>
                         </a>
                       </div>
+                    </div>
+                  ) : isSidebarStyledPage ? (
+                    <div className="detail-awards-layout">
+                      {renderActivityContent(contentItems)}
                     </div>
                   ) : isMessagePage ? (
                     <div className="detail-message-layout">
@@ -1689,10 +1796,10 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
             )}
 
             {/* Layout for IIIC pages: styled like a department page with its own sidebar */}
-            {isIiic && <IiicPage onClose={onClose} />}
+            {isIiic && <IiicPage initialKey={pageKey} onClose={onClose} />}
 
             {/* Layout for IDEA Lab pages: styled like a department page with its own sidebar */}
-            {isIdeaLab && <IdeaLabPage onClose={onClose} />}
+            {isIdeaLab && <IdeaLabPage initialKey={pageKey} onClose={onClose} />}
 
             {/* Layout for Department Sidebar-based pages: Delegated to isolated sub-components */}
             {isDept && (

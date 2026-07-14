@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { DeptSidebar } from './DeptSidebar'
 import TiltedCard from '../TiltedCard'
 import {
   BookOpen,
@@ -198,25 +199,12 @@ export const MathsDept: React.FC<DeptProps> = () => {
 
   return (
     <div className="dept-view-container">
-      {/* Left Sidebar */}
-      <aside className="dept-sidebar">
-        <div className="dept-sidebar-header">
-          <BookOpen size={18} />
-          <span>Department Info</span>
-        </div>
-        <nav className="dept-sidebar-nav">
-          {subpageKeys.map((key) => (
-            <button
-              key={key}
-              className={`dept-sidebar-link ${activeSubpage === key ? 'active' : ''}`}
-              onClick={() => setActiveSubpage(key)}
-            >
-              <span className="bullet">»</span>
-              <span className="label-text">{key}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
+            {/* Left Sidebar */}
+      <DeptSidebar
+        activeSubpage={activeSubpage}
+        setActiveSubpage={setActiveSubpage}
+        subpageKeys={subpageKeys}
+      />
 
       {/* Right Scrollable Content Viewport */}
       <main ref={mainRef} className="dept-main-content">

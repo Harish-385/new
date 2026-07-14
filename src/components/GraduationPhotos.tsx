@@ -4,35 +4,35 @@ import './GraduationBook.css'
 
 const stats = [
   { value: '10+', label: 'Graduation Ceremonies', icon: GraduationCap },
-  { value: '5000+', label: 'Graduates Empowered', icon: Users },
-  { value: '25+', label: 'Years of Excellence', icon: Award },
+  { value: '3000+', label: 'Graduates Empowered', icon: Users },
+  { value: '10+', label: 'Celebrating Success', icon: Award },
   { value: '1000+', label: 'Success Stories', icon: BookOpen },
 ]
 
 const timelineItems = [
   {
-    year: '2014',
+    year: '2018',
     title: 'First Graduation Day',
     desc: 'The beginning of a legacy of excellence and achievement.',
     image: '/gra1.jpg',
     icon: Flag
   },
   {
-    year: '2016',
+    year: '2019',
     title: 'Growing Stronger',
     desc: 'More dreams, more achievements, more reasons to be proud.',
     image: '/gra2.jpg',
     icon: Users
   },
   {
-    year: '2018',
+    year: '2020',
     title: 'Milestones of Success',
     desc: 'Celebrating talent, dedication and hard work.',
     image: '/gra3.jpeg',
     icon: Award
   },
   {
-    year: '2020',
+    year: '2021',
     title: 'Continuing the Legacy',
     desc: 'Striving for excellence and shaping future leaders.',
     image: '/gra4.jpeg',
@@ -46,7 +46,7 @@ const timelineItems = [
     icon: School
   },
   {
-    year: '2024',
+    year: '2023',
     title: 'A Future Unfolding',
     desc: 'Empowering graduates to create a better tomorrow.',
     image: '/gra6.jpeg',
@@ -173,7 +173,7 @@ export default function GraduationPhotos() {
           <button className="timeline-arrow-btn left-arrow" onClick={() => scroll('left')} aria-label="Scroll left">
             <ChevronLeft size={20} />
           </button>
-          
+
           <div className="timeline-carousel-track" ref={scrollContainerRef}>
             {timelineItems.map((item, idx) => {
               const Icon = item.icon
@@ -210,10 +210,10 @@ export default function GraduationPhotos() {
             <span className="gold-text-highlight">Be a part of our legacy!</span>
           </p>
         </div>
-        <a 
-          href="https://www.ritrjpm.ac.in/alumni/alumni-corner.php" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href="https://www.ritrjpm.ac.in/alumni/alumni-corner.php"
+          target="_blank"
+          rel="noopener noreferrer"
           className="grad-footer-btn"
         >
           <span>EXPLORE OUR JOURNEY</span>

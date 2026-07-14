@@ -1,3 +1,4 @@
+import { DeptSidebar } from './DeptSidebar'
 import './DeptRedesign.css'
 import React, { useState, useRef, useEffect } from 'react'
 import TiltedCard from '../TiltedCard'
@@ -237,30 +238,12 @@ export const CsecDept: React.FC<DeptProps> = () => {
 
   return (
     <div className="dept-view-container">
-      {/* Left Sidebar */}
-      <aside className="dept-sidebar">
-        <div className="dept-sidebar-header">
-          <BookOpen size={20} />
-          <span>Department Info</span>
-        </div>
-        <nav className="dept-sidebar-nav">
-          {subpageKeys.map((key) => (
-            <button
-              key={key}
-              className={`dept-sidebar-link ${activeSubpage === key ? 'active' : ''}`}
-              onClick={() => setActiveSubpage(key)}
-            >
-              {getIconForKey(key)}
-              <span>{key}</span>
-            </button>
-          ))}
-        </nav>
-        <div className="dept-sidebar-bg" />
-        <svg className="dept-sidebar-decor" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 2C6.48 2 2 6.48 2 12c0 2.2.72 4.23 1.94 5.88L3 21l3.12-.94C7.77 21.28 9.8 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-          <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z" />
-        </svg>
-      </aside>
+            {/* Left Sidebar */}
+      <DeptSidebar
+        activeSubpage={activeSubpage}
+        setActiveSubpage={setActiveSubpage}
+        subpageKeys={subpageKeys}
+      />
 
       {/* Right Scrollable Content Viewport */}
       <main ref={mainRef} className="dept-main-content">

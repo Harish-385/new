@@ -554,7 +554,7 @@ export function renderContentBlocks(items: ContentItem[], deptCode: string, sect
                       rotateAmplitude={5}
                       scaleOnHover={1.03}
                       showTooltip={false}
-                      imageObjectFit={deptCode === 'cse' ? 'contain' : 'cover'}
+                      imageObjectFit="cover"
                     />
                   </figure>
                   <div className="dept-profile-caption">

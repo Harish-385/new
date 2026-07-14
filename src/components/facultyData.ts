@@ -2381,12 +2381,12 @@ export const facultyDataMap: Record<string, FacultyData> = {
   "ckrishnakala": {
     name: "MRS. C. KRISHNAKALA",
     designation: "Assistant Professor - I",
-    department: "Department of Computer Science and Engineering",
+    department: "Department of Artificial Intelligence and Data Science",
     email: "krishnakala@ritrjpm.ac.in",
     secondaryEmail: "",
     mobile: "Contact Admin",
     image: "/media/cse/Faculty_Profile/304_krishnakala-1.jpg",
-    office: "RIT Campus, Department of Computer Science and Engineering",
+    office: "RIT Campus, Department of Artificial Intelligence and Data Science",
     bioSummary: "Dedicated faculty member committed to academic excellence and research.",
     researchAreas: ["Academic Research", "Engineering Education"],
     socials: [
