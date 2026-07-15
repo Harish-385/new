@@ -1,5 +1,5 @@
 import React from 'react'
-import { School, GraduationCap, User } from 'lucide-react'
+import { School, GraduationCap, User, BookOpen, Users, FlaskConical, Award, Search } from 'lucide-react'
 import { resolveLocalScrapedImage } from '../../utils/localScrapedImages'
 import TiltedCard from '../TiltedCard'
 import {
@@ -687,9 +687,225 @@ export const OverviewSection: React.FC<SectionProps> = ({ deptCode, sectionName,
 }
 
 export const AboutSection: React.FC<SectionProps> = ({ deptCode, sectionName, content, pageUrl }) => {
+  const isHODTextOrPhoto = (item: ContentItem) => {
+    if (item.type === 'image') {
+      const filename = getFileName(item.src || '').toLowerCase()
+      const alt = (item.alt || '').toLowerCase()
+      if (
+        filename.includes('hod') || 
+        filename.includes('head') || 
+        filename.includes('kaliappan') ||
+        filename.includes('kannan') ||
+        filename.includes('mariappan') ||
+        filename.includes('thiruppathy') ||
+        filename.includes('annachala') ||
+        filename.includes('sureshkumar') ||
+        filename.includes('karthikeyan') ||
+        filename.includes('dharmar') ||
+        alt.includes('hod') || 
+        alt.includes('head') ||
+        alt.includes('kaliappan') ||
+        alt.includes('kannan') ||
+        alt.includes('mariappan') ||
+        alt.includes('thiruppathy') ||
+        alt.includes('annachala') ||
+        alt.includes('sureshkumar') ||
+        alt.includes('karthikeyan') ||
+        alt.includes('dharmar')
+      ) {
+        return true
+      }
+    }
+    if (item.text) {
+      const text = item.text.toLowerCase()
+      if (
+        text.includes('kaliappan') ||
+        text.includes('kannan') ||
+        text.includes('mariappan') ||
+        text.includes('thiruppathy') ||
+        text.includes('annachala') ||
+        text.includes('sureshkumar') ||
+        text.includes('karthikeyan') ||
+        text.includes('dharmar') ||
+        text.includes('professor & head') ||
+        text.includes('professor and head') ||
+        text.includes('head of the department') ||
+        text.includes('head of department') ||
+        text.includes('hod')
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
+  // Extract paragraphs, filtering out HOD text/headings
+  const paragraphs = content.filter(item => item.type === 'paragraph' && item.text && isValidDepartmentText(item.text) && !isHODTextOrPhoto(item))
+  
+  // Combine all paragraph text
+  const combinedText = paragraphs.map(p => p.text || '').join(' ').trim()
+  
+  // Split into sentences using a regex that looks for a period followed by space and an uppercase letter
+  const sentences = combinedText ? combinedText.split(/\.\s+(?=[A-Z])/).map(s => s.trim()) : []
+  
+  // Append a period back to each sentence if it doesn't already end in punctuation
+  const cleanSentences = sentences.map(s => {
+    if (s && !/[.!?]$/.test(s)) {
+      return s + '.'
+    }
+    return s
+  })
+  
+  // Split sentences equally in half
+  const mid = Math.ceil(cleanSentences.length / 2)
+  const node1Text = cleanSentences.slice(0, mid).join(' ')
+  const node2Text = cleanSentences.slice(mid).join(' ')
+
+  // Find HOD Image
+  let hodLocalSrc: string | null = null
+  let hodItem: any = null
+
+  const HOD_MAP: Record<string, string> = {
+    civil: '/hod/civilhod.png',
+    aids: '/hod/HodAd.jpeg',
+    eee: '/hod/eeehod.png',
+    it: '/hod/ithod.jpeg',
+    aiml: '/hod/ai&mlhod.jpeg',
+    ece: '/hod/ecehod.png',
+    mech: '/hod/mechhod.jpeg',
+    physics: '/hod/physics.jpeg',
+  }
+
+  const mappedHod = HOD_MAP[deptCode.toLowerCase()]
+  if (mappedHod) {
+    hodLocalSrc = mappedHod
+  } else {
+    hodItem = content.find(item => {
+      if (item.type !== 'image' || !item.src) return false
+      const filename = getFileName(item.src)
+      return filename.includes('hod') || filename.includes('kaliappan') || (item.alt || '').toLowerCase().includes('hod') || (item.alt || '').toLowerCase().includes('head')
+    })
+    if (hodItem?.src) {
+      hodLocalSrc = resolveLocalScrapedImage(hodItem.src)
+    }
+  }
+
+  const deptName = getDeptName(deptCode)
+
+  // Find other items (excluding the HOD image, HOD text blocks, and paragraphs we already rendered in the timeline)
+  const otherItems = content.filter(item => {
+    if (item.type === 'paragraph') return false
+    if (hodItem && item === hodItem) return false
+    if (isHODTextOrPhoto(item)) return false
+    return true
+  })
+
   return (
     <section className="dept-section-about" aria-label={`${sectionName} details`}>
-      {renderContentBlocks(content, deptCode, sectionName, pageUrl)}
+      <div className="dept-timeline" style={{ marginBottom: '24px' }}>
+        <div className="dept-timeline-line"></div>
+        
+        {/* Node 1 */}
+        {node1Text && (
+          <div className="dept-timeline-item">
+            <div className="dept-timeline-badge dark">
+              <BookOpen size={18} />
+            </div>
+            <div className="dept-timeline-content">
+              <h3 className="dept-section-title">
+                {deptName.toUpperCase().replace('&', 'AND')} DEPARTMENT
+              </h3>
+              <p className="dept-paragraph">{node1Text}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Node 2 */}
+        {node2Text && (
+          <div className="dept-timeline-item">
+            <div className="dept-timeline-badge light">
+              <Users size={18} />
+            </div>
+            <div className="dept-timeline-content">
+              <p className="dept-paragraph">{node2Text}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Render any non-HOD images, tables, documents, etc. */}
+      {otherItems.length > 0 && (
+        <div style={{ margin: '24px 0' }}>
+          {renderContentBlocks(otherItems, deptCode, sectionName, pageUrl)}
+        </div>
+      )}
+
+      {/* HOD Banner Image Card */}
+      {hodLocalSrc && (() => {
+        const HOD_NAMES: Record<string, { name: string; title: string }> = {
+          cse:  { name: 'Dr. K. Vijayalakshmi',   title: 'Professor & Head, Department of CSE' },
+          csbs: { name: 'Dr. M. Gomathy Nayagam', title: 'Professor & Head, Department of CSBS' },
+        }
+        const hodInfo = HOD_NAMES[deptCode.toLowerCase()]
+        return (
+          <div style={{ marginTop: '30px', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e6dec9', boxShadow: '0 8px 30px rgba(140, 98, 57, 0.08)' }}>
+            <img
+              src={hodLocalSrc}
+              alt={hodItem?.alt || `${deptName} HOD`}
+              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+            />
+            {hodInfo && (
+              <div style={{ padding: '16px 20px', background: '#3c2415', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '17px', fontWeight: 700, color: '#d4af37', fontFamily: "'Outfit', serif" }}>{hodInfo.name}</span>
+                <span style={{ fontSize: '13px', color: '#e8d8b8', fontWeight: 400 }}>{hodInfo.title}</span>
+              </div>
+            )}
+          </div>
+        )
+      })()}
+
+      {/* Bottom Highlights Ribbon */}
+      <div className="dept-highlight-grid">
+        <div className="dept-highlight-card">
+          <div className="dept-highlight-icon">
+            <GraduationCap size={16} />
+          </div>
+          <div className="dept-highlight-info">
+            <span className="dept-highlight-title">Quality Education</span>
+            <span className="dept-highlight-desc">Strong foundation in theoretical and practical concepts.</span>
+          </div>
+        </div>
+
+        <div className="dept-highlight-card">
+          <div className="dept-highlight-icon">
+            <FlaskConical size={16} />
+          </div>
+          <div className="dept-highlight-info">
+            <span className="dept-highlight-title">Modern Facilities</span>
+            <span className="dept-highlight-desc">Well-equipped labs with advanced instruments.</span>
+          </div>
+        </div>
+
+        <div className="dept-highlight-card">
+          <div className="dept-highlight-icon">
+            <Award size={16} />
+          </div>
+          <div className="dept-highlight-info">
+            <span className="dept-highlight-title">Expert Faculty</span>
+            <span className="dept-highlight-desc">Experienced faculty committed to academic excellence.</span>
+          </div>
+        </div>
+
+        <div className="dept-highlight-card">
+          <div className="dept-highlight-icon">
+            <Search size={16} />
+          </div>
+          <div className="dept-highlight-info">
+            <span className="dept-highlight-title">Innovation & Research</span>
+            <span className="dept-highlight-desc">Encouraging research, innovation and critical thinking.</span>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { DeptSidebar } from './DeptSidebar'
+import {DeptSidebar } from './DeptSidebar'
 import TiltedCard from '../TiltedCard'
 import {
   BookOpen,
   ExternalLink,
   FileText,
-  Edit } from 'lucide-react'
+  Edit, Atom, GraduationCap} from 'lucide-react'
 import { useCMS } from '../CMSContext'
 import { EditDeptSubpageModal } from '../CMSModals'
 import { resolveLocalScrapedImage } from '../../utils/localScrapedImages'
@@ -212,18 +212,19 @@ export const CsbsDept: React.FC<DeptProps> = () => {
 
       {/* Right Scrollable Content Viewport */}
       <main ref={mainRef} className="dept-main-content">
-        <header className="dept-content-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <div className="detail-eyebrow" style={{ marginBottom: '8px' }}>
+        <Atom className="dept-watermark" />
+        <header className="dept-content-header">
+          <div className="dept-eyebrow">
             DEPARTMENT OF {deptName.toUpperCase().replace('&', 'AND')}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', width: '100%' }}>
-            <h1 style={{ margin: 0 }}>{activeSubpage}</h1>
-            
+          <h1 className="dept-title">{activeSubpage}</h1>
+          <div className="dept-header-divider">
+            <GraduationCap size={20} />
           </div>
-
         </header>
 
         <div className="dept-content-body">
+        <div className="dept-card-container">
           {pdfAttachmentCards.length > 0 && (
             <section className="detail-pdf-section" aria-label={`${activeSubpage} pdf attachments`}>
               <div className="detail-image-gallery__lead">
@@ -322,6 +323,7 @@ export const CsbsDept: React.FC<DeptProps> = () => {
               <p>No content block found. Click the button above to visit the live department site.</p>
             </div>
           )}
+          </div>
         </div>
       </main>
     {showEditModal && (

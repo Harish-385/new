@@ -16,6 +16,7 @@ interface TiltedCardProps {
   displayOverlayContent?: boolean
   overlayContent?: React.ReactNode
   imageObjectFit?: React.CSSProperties['objectFit']
+  imageObjectPosition?: React.CSSProperties['objectPosition']
 }
 
 export default function TiltedCard({
@@ -32,6 +33,7 @@ export default function TiltedCard({
   displayOverlayContent = false,
   overlayContent,
   imageObjectFit = 'cover',
+  imageObjectPosition = 'center top',
 }: TiltedCardProps) {
   const [hovered, setHovered] = useState(false)
 
@@ -108,7 +110,7 @@ export default function TiltedCard({
             width: imageWidth,
             height: imageHeight,
             objectFit: imageObjectFit,
-            objectPosition: 'center top',
+            objectPosition: imageObjectPosition,
             borderRadius: '16px',
             display: 'block',
             filter: hovered

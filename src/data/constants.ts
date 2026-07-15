@@ -46,7 +46,12 @@ export const departments = [
   { name: 'Civil Engineering', labs: 'Smart infra, materials, GIS', accent: '#f472b6' },
 ]
 
-export const achievements = ['92% placement rate', '48 LPA highest package', '160+ recruiters', '27 funded research labs']
+export const achievements = [
+  'Approved by AICTE, New Delhi & Affiliated to Anna University',
+  "NAAC Accredited with 'A+' Grade & An ISO 9001: 2015 Certified Institution",
+  'NBA Accredited UG Programs: CSE, EEE, ECE, MECH and CIVIL',
+  'An Autonomous Institution'
+]
 
 export const heroStats = [
   { label: 'Students', value: '3000+', icon: BookOpen, tone: 'pink' },

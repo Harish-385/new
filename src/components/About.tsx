@@ -60,7 +60,7 @@ export default function About({ onSelectPage }: AboutProps) {
             <span>{badgeText}</span>
           </div>
 
-          <h2 className="about-section-heading">
+          <h2 className="about-section-heading" onClick={() => onSelectPage?.('info-centre')} style={{ cursor: 'pointer' }}>
             ABOUT RAMCO INSTITUTE<br />OF TECHNOLOGY
           </h2>
 
@@ -164,11 +164,12 @@ export default function About({ onSelectPage }: AboutProps) {
           <div className="founders-card-img-wrapper">
             <TiltedCard
               imageSrc="/founders.png"
-              altText="Founders"
+              altText="Ramco Institute of Technology"
               containerHeight="310px"
               containerWidth="100%"
               imageHeight="310px"
               imageWidth="100%"
+              imageObjectPosition="center 20%"
               rotateAmplitude={10}
               scaleOnHover={1.04}
               showTooltip={false}

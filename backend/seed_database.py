@@ -31,7 +31,7 @@ def seed():
     config.about_title = "About Ramco Institute of Technology"
     config.about_lead = "Ramco Institute of Technology was founded with a vision to impart high-quality engineering education at an affordable cost. Under the guidance of our Chairman Shri P.R. Venketrama Raja, we revolutionize the learning environment."
     config.about_description = "Being part of the Ramco Group, widely recognized for its qualitative and innovative brands globally, we set high standards. We empower students with accessible, yet world-class engineering education and prepare them for lifelong learning."
-    config.about_image_url = "/founders.png"
+    config.about_image_url = "/about.png"
     config.about_estd = "2013"
 
     config.vision_text = "To evolve as an Institute of international repute in offering high-quality technical education, Research and extension programmes in order to create knowledgeable, professionally competent and skilled Engineers and Technologists capable of working in multi-disciplinary environment to cater to the societal needs."

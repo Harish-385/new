@@ -113,7 +113,7 @@ const DEFAULT_HOMEPAGE_CONFIG: HomepageConfig = {
   about_title: "About Ramco Institute of Technology",
   about_lead: "Ramco Institute of Technology was founded with a vision to impart high-quality engineering education at an affordable cost. Under the guidance of our Chairman Shri P.R. Venketrama Raja, we revolutionize the learning environment.",
   about_description: "Being part of the Ramco Group, widely recognized for its qualitative and innovative brands globally, we set high standards. We empower students with accessible, yet world-class engineering education and prepare them for lifelong learning.",
-  about_image_url: "/founders.png",
+  about_image_url: "/about.png",
   about_estd: "2013",
   vision_text: "To evolve as an Institute of international repute in offering high-quality technical education, Research and extension programmes in order to create knowledgeable, professionally competent and skilled Engineers and Technologists capable of working in multi-disciplinary environment to cater to the societal needs.",
   mission_intro: "To accomplish its unique vision, the Institute has a far-reaching mission that aims:",
@@ -123,12 +123,12 @@ const DEFAULT_HOMEPAGE_CONFIG: HomepageConfig = {
     "To constantly motivate and involve the students and faculty members in the education process for continuously improving their performance to achieve excellence."
   ],
   stats: [
-    { label: "Years of Excellence", value: "25+", icon: "GraduationCap", tone: "indigo" },
-    { label: "Students", value: "5000+", icon: "Users", tone: "green" },
-    { label: "Expert Faculty", value: "300+", icon: "UserCheck", tone: "pink" },
-    { label: "Placement Assistance", value: "95%+", icon: "Laptop", tone: "cyan" },
+    { label: "Years of Excellence", value: "13+", icon: "GraduationCap", tone: "indigo" },
+    { label: "Students", value: "3000+", icon: "Users", tone: "green" },
+    { label: "Expert Faculty", value: "170+", icon: "UserCheck", tone: "pink" },
+    { label: "Placement Assistance", value: "90%+", icon: "Laptop", tone: "cyan" },
     { label: "Research Publications", value: "100+", icon: "BookOpen", tone: "purple" },
-    { label: "Clubs & Committees", value: "50+", icon: "Trophy", tone: "orange" }
+    { label: "Clubs & Committees", value: "10+", icon: "Trophy", tone: "orange" }
   ],
   cta_buttons: [
     { text: "Explore Infrastructure", link: "#gallery" },
@@ -247,7 +247,7 @@ const API_BASE = "http://localhost:9000/api"
 
 export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Clear old cache versions
-  const CURRENT_VERSION = 'v26'
+  const CURRENT_VERSION = 'v27'
   if (typeof window !== 'undefined') {
     const localVer = localStorage.getItem('rit_cache_version')
     if (localVer !== CURRENT_VERSION) {
@@ -430,8 +430,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (configData.hero_image_url === "/rit1.jpeg" || configData.hero_image_url === "/rit1.PNG") {
           configData.hero_image_url = "/ritmain.PNG"
         }
-        if (configData.about_image_url === "/rit1.PNG" || configData.about_image_url === "/rit1.jpeg" || configData.about_image_url === "/rit.JPG") {
-          configData.about_image_url = "/founders.png"
+        if (configData.about_image_url === "/rit1.PNG" || configData.about_image_url === "/rit1.jpeg" || configData.about_image_url === "/rit.JPG" || configData.about_image_url === "/founders.png") {
+          configData.about_image_url = "/about.png"
         }
         // Restore customized images from localStorage if backend still has defaults
         const localDataStr = localStorage.getItem('rit_local_homepage_config')
@@ -441,8 +441,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (localData.hero_image_url === "/rit1.jpeg" || localData.hero_image_url === "/rit1.PNG") {
               localData.hero_image_url = "/ritmain.PNG"
             }
-            if (localData.about_image_url === "/rit1.PNG" || localData.about_image_url === "/rit1.jpeg" || localData.about_image_url === "/rit.JPG") {
-              localData.about_image_url = "/founders.png"
+            if (localData.about_image_url === "/rit1.PNG" || localData.about_image_url === "/rit1.jpeg" || localData.about_image_url === "/rit.JPG" || localData.about_image_url === "/founders.png") {
+              localData.about_image_url = "/about.png"
             }
             localStorage.setItem('rit_local_homepage_config', JSON.stringify(localData))
             if (localData.hero_image_url && localData.hero_image_url !== "/ritmain.PNG" && configData.hero_image_url === "/ritmain.PNG") {
@@ -521,8 +521,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           if (parsed.hero_image_url === "/rit1.jpeg" || parsed.hero_image_url === "/rit1.PNG") {
             parsed.hero_image_url = "/ritmain.PNG"
           }
-          if (parsed.about_image_url === "/rit1.PNG" || parsed.about_image_url === "/rit1.jpeg" || parsed.about_image_url === "/rit.JPG") {
-            parsed.about_image_url = "/founders.png"
+          if (parsed.about_image_url === "/rit1.PNG" || parsed.about_image_url === "/rit1.jpeg" || parsed.about_image_url === "/rit.JPG" || parsed.about_image_url === "/founders.png") {
+            parsed.about_image_url = "/about.png"
           }
           if (!parsed.stats || parsed.stats.length !== 6 || parsed.stats[0].value !== "25+") {
             parsed.stats = [

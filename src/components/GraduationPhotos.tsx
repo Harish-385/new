@@ -1,38 +1,38 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { GraduationCap, Users, Award, BookOpen, ArrowRight, ChevronLeft, ChevronRight, Flag, TrendingUp, School, Rocket } from 'lucide-react'
 import './GraduationBook.css'
 
 const stats = [
   { value: '10+', label: 'Graduation Ceremonies', icon: GraduationCap },
-  { value: '3000+', label: 'Graduates Empowered', icon: Users },
-  { value: '10+', label: 'Celebrating Success', icon: Award },
+  { value: '5000+', label: 'Graduates Empowered', icon: Users },
+  { value: '25+', label: 'Years of Excellence', icon: Award },
   { value: '1000+', label: 'Success Stories', icon: BookOpen },
 ]
 
 const timelineItems = [
   {
-    year: '2018',
+    year: '2014',
     title: 'First Graduation Day',
     desc: 'The beginning of a legacy of excellence and achievement.',
     image: '/gra1.jpg',
     icon: Flag
   },
   {
-    year: '2019',
+    year: '2016',
     title: 'Growing Stronger',
     desc: 'More dreams, more achievements, more reasons to be proud.',
     image: '/gra2.jpg',
     icon: Users
   },
   {
-    year: '2020',
+    year: '2018',
     title: 'Milestones of Success',
     desc: 'Celebrating talent, dedication and hard work.',
     image: '/gra3.jpeg',
     icon: Award
   },
   {
-    year: '2021',
+    year: '2020',
     title: 'Continuing the Legacy',
     desc: 'Striving for excellence and shaping future leaders.',
     image: '/gra4.jpeg',
@@ -46,7 +46,7 @@ const timelineItems = [
     icon: School
   },
   {
-    year: '2023',
+    year: '2024',
     title: 'A Future Unfolding',
     desc: 'Empowering graduates to create a better tomorrow.',
     image: '/gra6.jpeg',
@@ -56,6 +56,24 @@ const timelineItems = [
 
 export default function GraduationPhotos() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const images = [
+      '/gra1.jpg',
+      '/gra2.jpg',
+      '/gra3.jpeg',
+      '/gra4.jpeg',
+      '/gra5.jpg',
+      '/gra6.jpeg'
+    ]
+    images.forEach(src => {
+      const img = new Image()
+      img.src = src
+      img.decode().catch(() => {
+        // Fallback silently if decode fails
+      })
+    })
+  }, [])
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -114,14 +132,20 @@ export default function GraduationPhotos() {
         {/* Right Column: 3D Book */}
         <div className="grad-book-column">
           <div className="book-wrapper-frame">
-            {/* Preload images to keep them decoded in memory and prevent flickering during animations */}
-            <div style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}>
-              <img src="/gra1.jpg" alt="preload" />
-              <img src="/gra2.jpg" alt="preload" />
-              <img src="/gra3.jpeg" alt="preload" />
-              <img src="/gra4.jpeg" alt="preload" />
-              <img src="/gra5.jpg" alt="preload" />
-              <img src="/gra6.jpeg" alt="preload" />
+            {/* Force CSS background-image pre-decoding on GPU layers to completely eliminate flip transition flickering */}
+            <div style={{ position: 'absolute', left: '-9999px', top: '-9999px', width: '210px', height: '300px', overflow: 'hidden', pointerEvents: 'none' }}>
+              <img src="/gra1.jpg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <img src="/gra2.jpg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <img src="/gra3.jpeg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <img src="/gra4.jpeg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <img src="/gra5.jpg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <img src="/gra6.jpeg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="preload" />
+              <div style={{ backgroundImage: "url('/gra1.jpg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
+              <div style={{ backgroundImage: "url('/gra2.jpg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
+              <div style={{ backgroundImage: "url('/gra3.jpeg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
+              <div style={{ backgroundImage: "url('/gra4.jpeg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
+              <div style={{ backgroundImage: "url('/gra5.jpg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
+              <div style={{ backgroundImage: "url('/gra6.jpeg')", width: '210px', height: '300px', transform: 'translate3d(0,0,0)' }}></div>
             </div>
 
             <div className="book-container">
@@ -173,7 +197,7 @@ export default function GraduationPhotos() {
           <button className="timeline-arrow-btn left-arrow" onClick={() => scroll('left')} aria-label="Scroll left">
             <ChevronLeft size={20} />
           </button>
-
+          
           <div className="timeline-carousel-track" ref={scrollContainerRef}>
             {timelineItems.map((item, idx) => {
               const Icon = item.icon
@@ -210,10 +234,10 @@ export default function GraduationPhotos() {
             <span className="gold-text-highlight">Be a part of our legacy!</span>
           </p>
         </div>
-        <a
-          href="https://www.ritrjpm.ac.in/alumni/alumni-corner.php"
-          target="_blank"
-          rel="noopener noreferrer"
+        <a 
+          href="https://www.ritrjpm.ac.in/alumni/alumni-corner.php" 
+          target="_blank" 
+          rel="noopener noreferrer" 
           className="grad-footer-btn"
         >
           <span>EXPLORE OUR JOURNEY</span>

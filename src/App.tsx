@@ -28,7 +28,6 @@ function AppContent() {
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24 })
   const [activePageKey, setActivePageKey] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const { isAuthenticated, logout } = useCMS()
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false)
@@ -48,18 +47,11 @@ function AppContent() {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <LoadingScreen key="loading" onComplete={() => setIsLoading(false)} />
-        )}
-      </AnimatePresence>
-
-      {!isLoading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+      >
           {/* Admin Banner */}
           {isAuthenticated && (
             <div
@@ -148,21 +140,28 @@ function AppContent() {
 
           <main style={isAuthenticated ? { paddingTop: '40px' } : {}}>
             <motion.div className="scroll-progress" style={{ scaleX: progress }} />
-            <Header onSelectPage={setActivePageKey} />
-            <Hero />
-            <QuickLinksBar />
-            <Dashboard />
-            <Marquee />
-            <About onSelectPage={setActivePageKey} />
-            <Research />
-            <DepartmentsInterest onSelectPage={setActivePageKey} />
-            <Events />
-            <Placements />
-            <CampusLife />
-            <GraduationPhotos />
-            <Footer onOpenAdmin={() => {
-              navigate('/admin')
-            }} />
+            <Header 
+              onSelectPage={setActivePageKey} 
+              style={activePageKey?.startsWith('placements-') ? { display: 'none' } : undefined}
+            />
+            <div style={activePageKey ? { display: 'none' } : undefined}>
+              <Hero />
+              <QuickLinksBar />
+              <Dashboard />
+              <Marquee />
+              <About onSelectPage={setActivePageKey} />
+              <Research />
+              <DepartmentsInterest onSelectPage={setActivePageKey} />
+              <Events />
+              <Placements />
+              <CampusLife />
+              <GraduationPhotos />
+              <Footer 
+                onOpenAdmin={() => {
+                  navigate('/admin')
+                }} 
+              />
+            </div>
 
             {/* Render the full-screen Detail Overlay when a page key is active */}
             <DetailOverlay pageKey={activePageKey} onClose={() => setActivePageKey(null)} onNavigate={setActivePageKey} />
@@ -187,7 +186,6 @@ function AppContent() {
             </AnimatePresence>
           </main>
         </motion.div>
-      )}
     </>
   )
 }
@@ -208,16 +206,25 @@ const AdminRoute = () => {
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true)
+
   return (
     <CMSProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AppContent />} />
-          <Route path="/departments" element={<DepartmentsPage />} />
-          <Route path="/admin" element={<AdminRoute />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <LoadingScreen key="loading" onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+      {!isLoading && (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<AppContent />} />
+            <Route path="/departments" element={<DepartmentsPage />} />
+            <Route path="/admin" element={<AdminRoute />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </BrowserRouter>
+      )}
     </CMSProvider>
   )
 }

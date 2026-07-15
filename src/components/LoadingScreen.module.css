@@ -89,7 +89,7 @@
 /* Typography & Titles */
 .title {
   font-family: 'Cinzel', 'Playfair Display', serif;
-  font-size: clamp(1.4rem, 2.8vw, 2.3rem);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
   font-weight: 700;
   color: #061846;
   letter-spacing: 0.16em;
@@ -100,7 +100,7 @@
 
 .subtitle {
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
   font-weight: 500;
   color: #c9a227;
   letter-spacing: 0.32em;

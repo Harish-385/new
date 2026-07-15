@@ -17,11 +17,6 @@ const quickLinks = [
     icon: Users,
   },
   {
-    label: 'E-Governance',
-    href: 'https://www.ritrjpm.ac.in/campuslogin/',
-    icon: Monitor,
-  },
-  {
     label: 'Incubation',
     href: 'https://www.ritrjpm.ac.in/',
     icon: Lightbulb,

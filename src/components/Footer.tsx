@@ -4,13 +4,70 @@ import { useCMS } from './CMSContext'
 
 interface FooterProps {
   onOpenAdmin: () => void
+  showOnlyCopyright?: boolean
+  hideCopyright?: boolean
 }
 
-export default function Footer({ onOpenAdmin }: FooterProps) {
+export default function Footer({ onOpenAdmin, showOnlyCopyright, hideCopyright }: FooterProps) {
   const { homepageConfig } = useCMS()
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  if (showOnlyCopyright) {
+    return (
+      <div className="wavy-copyright-row unified-makers-row" style={{ margin: 0, border: 'none', background: '#0a0d1a', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
+        {/* Left Decorative Dot Matrix */}
+        <div className="footer-dot-matrix left-matrix">
+          {Array.from({ length: 18 }).map((_, idx) => (
+            <span key={idx} className="matrix-dot" />
+          ))}
+        </div>
+
+        <div className="wavy-copyright-left">
+          <span>© 2026 Ramco Institute of Technology. All Rights Reserved.</span>
+        </div>
+
+        {/* Center Capsule Button & Airplane */}
+        <div className="footer-makers-center-wrap">
+          <a href="https://ritrjpm.ac.in/department/artificial-intelligence-and-data-science/makers" target="_blank" rel="noreferrer" className="makers-capsule-button">
+            <div className="makers-icon-circle">
+              <span>&lt;/&gt;</span>
+            </div>
+            <div className="makers-text-block">
+              <span className="makers-label">The Minds Behind RIT</span>
+              <span className="makers-title">Meet the Developers</span>
+            </div>
+            <div className="makers-arrow-wrap">
+              <span className="makers-arrow">→</span>
+            </div>
+          </a>
+
+          {/* Paper Airplane Vector Graphic */}
+          <div className="airplane-vector-wrap">
+            <svg viewBox="0 0 120 40" fill="none" className="airplane-vector-svg">
+              <path d="M 0,32 C 30,32 50,38 60,25 C 70,12 85,15 95,20" stroke="#ae701e" strokeWidth="1.5" strokeDasharray="4,4" fill="none" />
+              <g transform="translate(93, 10) rotate(35) scale(0.65)">
+                <path d="M 0,10 L 22,0 L 16,22 L 12,14 L 0,10 Z" fill="none" stroke="#ffb834" strokeWidth="2" strokeLinejoin="round" />
+                <path d="M 12,14 L 22,0 L 9,9 Z" fill="none" stroke="#ffb834" strokeWidth="1.5" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div className="wavy-copyright-right">
+          <span className="designed-by">Cooked By <strong className="highlight-dept">Department of Artificial Intelligence and Data Science</strong></span>
+        </div>
+
+        {/* Right Decorative Dot Matrix */}
+        <div className="footer-dot-matrix right-matrix">
+          {Array.from({ length: 18 }).map((_, idx) => (
+            <span key={idx} className="matrix-dot" />
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -332,56 +389,58 @@ export default function Footer({ onOpenAdmin }: FooterProps) {
           </div>
 
           {/* Unified Copyright, Meet the Makers & Credit Row */}
-          <div className="wavy-copyright-row unified-makers-row">
-            {/* Left Decorative Dot Matrix */}
-            <div className="footer-dot-matrix left-matrix">
-              {Array.from({ length: 18 }).map((_, idx) => (
-                <span key={idx} className="matrix-dot" />
-              ))}
-            </div>
+          {!hideCopyright && (
+            <div className="wavy-copyright-row unified-makers-row">
+              {/* Left Decorative Dot Matrix */}
+              <div className="footer-dot-matrix left-matrix">
+                {Array.from({ length: 18 }).map((_, idx) => (
+                  <span key={idx} className="matrix-dot" />
+                ))}
+              </div>
 
-            <div className="wavy-copyright-left">
-              <span>© 2026 Ramco Institute of Technology. All Rights Reserved.</span>
-            </div>
+              <div className="wavy-copyright-left">
+                <span>© 2026 Ramco Institute of Technology. All Rights Reserved.</span>
+              </div>
 
-            {/* Center Capsule Button & Airplane */}
-            <div className="footer-makers-center-wrap">
-              <a href="https://ritrjpm.ac.in/department/artificial-intelligence-and-data-science/makers" target="_blank" rel="noreferrer" className="makers-capsule-button">
-                <div className="makers-icon-circle">
-                  <span>&lt;/&gt;</span>
-                </div>
-                <div className="makers-text-block">
-                  <span className="makers-label">The Minds Behind RIT</span>
-                  <span className="makers-title">Meet the Developers</span>
-                </div>
-                <div className="makers-arrow-wrap">
-                  <span className="makers-arrow">→</span>
-                </div>
-              </a>
+              {/* Center Capsule Button & Airplane */}
+              <div className="footer-makers-center-wrap">
+                <a href="https://ritrjpm.ac.in/department/artificial-intelligence-and-data-science/makers" target="_blank" rel="noreferrer" className="makers-capsule-button">
+                  <div className="makers-icon-circle">
+                    <span>&lt;/&gt;</span>
+                  </div>
+                  <div className="makers-text-block">
+                    <span className="makers-label">The Minds Behind RIT</span>
+                    <span className="makers-title">Meet the Developers</span>
+                  </div>
+                  <div className="makers-arrow-wrap">
+                    <span className="makers-arrow">→</span>
+                  </div>
+                </a>
 
-              {/* Paper Airplane Vector Graphic */}
-              <div className="airplane-vector-wrap">
-                <svg viewBox="0 0 120 40" fill="none" className="airplane-vector-svg">
-                  <path d="M 0,32 C 30,32 50,38 60,25 C 70,12 85,15 95,20" stroke="#ae701e" strokeWidth="1.5" strokeDasharray="4,4" fill="none" />
-                  <g transform="translate(93, 10) rotate(35) scale(0.65)">
-                    <path d="M 0,10 L 22,0 L 16,22 L 12,14 L 0,10 Z" fill="none" stroke="#ffb834" strokeWidth="2" strokeLinejoin="round" />
-                    <path d="M 12,14 L 22,0 L 9,9 Z" fill="none" stroke="#ffb834" strokeWidth="1.5" />
-                  </g>
-                </svg>
+                {/* Paper Airplane Vector Graphic */}
+                <div className="airplane-vector-wrap">
+                  <svg viewBox="0 0 120 40" fill="none" className="airplane-vector-svg">
+                    <path d="M 0,32 C 30,32 50,38 60,25 C 70,12 85,15 95,20" stroke="#ae701e" strokeWidth="1.5" strokeDasharray="4,4" fill="none" />
+                    <g transform="translate(93, 10) rotate(35) scale(0.65)">
+                      <path d="M 0,10 L 22,0 L 16,22 L 12,14 L 0,10 Z" fill="none" stroke="#ffb834" strokeWidth="2" strokeLinejoin="round" />
+                      <path d="M 12,14 L 22,0 L 9,9 Z" fill="none" stroke="#ffb834" strokeWidth="1.5" />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <div className="wavy-copyright-right">
+                <span className="designed-by">Cooked By <strong className="highlight-dept">Department of Artificial Intelligence and Data Science</strong></span>
+              </div>
+
+              {/* Right Decorative Dot Matrix */}
+              <div className="footer-dot-matrix right-matrix">
+                {Array.from({ length: 18 }).map((_, idx) => (
+                  <span key={idx} className="matrix-dot" />
+                ))}
               </div>
             </div>
-
-            <div className="wavy-copyright-right">
-              <span className="designed-by">Cooked By <strong className="highlight-dept">Department of Artificial Intelligence and Data Science</strong></span>
-            </div>
-
-            {/* Right Decorative Dot Matrix */}
-            <div className="footer-dot-matrix right-matrix">
-              {Array.from({ length: 18 }).map((_, idx) => (
-                <span key={idx} className="matrix-dot" />
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </footer>

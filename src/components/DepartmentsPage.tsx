@@ -216,206 +216,209 @@ export default function DepartmentsPage() {
       )}
 
       {/* Navigation Header */}
-      <Header onSelectPage={setActivePageKey} />
+      <Header 
+        onSelectPage={setActivePageKey} 
+        style={activePageKey && activePageKey !== 'info-centre' && activePageKey !== 'admission' ? { display: 'none' } : undefined} 
+      />
 
-      {/* Breadcrumbs & Hero Main */}
-      <section className="depts-hero-section">
-        {/* Flipped Background image container */}
-        <div className="depts-hero-bg-image" />
-        
-        {/* Layered S-Curve Backdrop */}
-        <div className="depts-hero-backdrop">
-          {/* Trim Layer (Gold-Beige) */}
-          <svg className="backdrop-curve trim-layer" viewBox="0 0 1000 500" preserveAspectRatio="none">
-            <path d="M 0,0 L 370,0 C 380,50 400,100 390,180 C 380,250 440,380 520,440 C 560,470 600,490 620,500 L 0,500 Z" fill="#e5ccb3" />
-          </svg>
-          {/* Main Card Layer (Cream-White) */}
-          <svg className="backdrop-curve main-layer" viewBox="0 0 1000 500" preserveAspectRatio="none">
-            <path d="M 0,0 L 350,0 C 360,50 380,100 370,180 C 360,250 420,380 500,440 C 540,470 580,490 600,500 L 0,500 Z" fill="#fdf3dc" />
-          </svg>
-        </div>
-
-        <div className="depts-hero-container">
-          <div className="depts-hero-text">
-            {/* Breadcrumbs */}
-            <div className="depts-breadcrumbs">
-              <span onClick={() => navigate('/')} className="breadcrumb-link"><Home size={13} /> Home</span>
-              <ChevronRight size={11} className="breadcrumb-arrow" />
-              <span className="breadcrumb-current">Departments</span>
-            </div>
-            
-            <h1 className="depts-main-title">Our<br />Departments</h1>
-            
-            {/* Custom Divider Line with Dot */}
-            <div className="depts-custom-divider">
-              <span className="custom-divider-line" />
-              <span className="custom-divider-dot" />
-            </div>
-
-            <p className="depts-main-subtitle">
-              Explore our diverse departments that drive innovation, excellence and holistic education.
-            </p>
-
-            {/* Stacked key points with vertical dividers */}
-            <div className="depts-key-points">
-              <div className="key-point-item">
-                <div className="key-point-icon-box">
-                  <BookOpen size={18} />
-                </div>
-                <div className="key-point-text">
-                  <span className="line1">Industry</span>
-                  <span className="line2">Aligned Curriculum</span>
-                </div>
-              </div>
-              <div className="key-point-divider" />
-              <div className="key-point-item">
-                <div className="key-point-icon-box">
-                  <Users size={18} />
-                </div>
-                <div className="key-point-text">
-                  <span className="line1">Experienced</span>
-                  <span className="line2">Faculty</span>
-                </div>
-              </div>
-              <div className="key-point-divider" />
-              <div className="key-point-item">
-                <div className="key-point-icon-box">
-                  <GraduationCap size={18} />
-                </div>
-                <div className="key-point-text">
-                  <span className="line1">Holistic</span>
-                  <span className="line2">Development</span>
-                </div>
-              </div>
-            </div>
+      <div style={activePageKey ? { display: 'none' } : undefined}>
+        {/* Breadcrumbs & Hero Main */}
+        <section className="depts-hero-section">
+          {/* Flipped Background image container */}
+          <div className="depts-hero-bg-image" />
+          
+          {/* Layered S-Curve Backdrop */}
+          <div className="depts-hero-backdrop">
+            {/* Trim Layer (Gold-Beige) */}
+            <svg className="backdrop-curve trim-layer" viewBox="0 0 1000 500" preserveAspectRatio="none">
+              <path d="M 0,0 L 370,0 C 380,50 400,100 390,180 C 380,250 440,380 520,440 C 560,470 600,490 620,500 L 0,500 Z" fill="#e5ccb3" />
+            </svg>
+            {/* Main Card Layer (Cream-White) */}
+            <svg className="backdrop-curve main-layer" viewBox="0 0 1000 500" preserveAspectRatio="none">
+              <path d="M 0,0 L 350,0 C 360,50 380,100 370,180 C 360,250 420,380 500,440 C 540,470 580,490 600,500 L 0,500 Z" fill="#fdf3dc" />
+            </svg>
           </div>
 
-          {/* Hero Banner Image */}
-          <div className="depts-hero-banner">
-            <img src="/clg1.png" alt="Ramco Institute of Technology Campus" className="hero-banner-img-mock" />
+          <div className="depts-hero-container">
+            <div className="depts-hero-text">
+              {/* Breadcrumbs */}
+              <div className="depts-breadcrumbs">
+                <span onClick={() => navigate('/')} className="breadcrumb-link"><Home size={13} /> Home</span>
+                <ChevronRight size={11} className="breadcrumb-arrow" />
+                <span className="breadcrumb-current">Departments</span>
+              </div>
+              
+              <h1 className="depts-main-title">Our<br />Departments</h1>
+              
+              {/* Custom Divider Line with Dot */}
+              <div className="depts-custom-divider">
+                <span className="custom-divider-line" />
+                <span className="custom-divider-dot" />
+              </div>
+
+              <p className="depts-main-subtitle">
+                Explore our diverse departments that drive innovation, excellence and holistic education.
+              </p>
+
+              {/* Stacked key points with vertical dividers */}
+              <div className="depts-key-points">
+                <div className="key-point-item">
+                  <div className="key-point-icon-box">
+                    <BookOpen size={18} />
+                  </div>
+                  <div className="key-point-text">
+                    <span className="line1">Industry</span>
+                    <span className="line2">Aligned Curriculum</span>
+                  </div>
+                </div>
+                <div className="key-point-divider" />
+                <div className="key-point-item">
+                  <div className="key-point-icon-box">
+                    <Users size={18} />
+                  </div>
+                  <div className="key-point-text">
+                    <span className="line1">Experienced</span>
+                    <span className="line2">Faculty</span>
+                  </div>
+                </div>
+                <div className="key-point-divider" />
+                <div className="key-point-item">
+                  <div className="key-point-icon-box">
+                    <GraduationCap size={18} />
+                  </div>
+                  <div className="key-point-text">
+                    <span className="line1">Holistic</span>
+                    <span className="line2">Development</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Hero Banner Image */}
+            <div className="depts-hero-banner">
+              <img src="/drone.png" alt="Ramco Institute of Technology Campus" className="hero-banner-img-mock" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
+        {/* Section 4: Departments Grid */}
+        <section className="depts-grid-section">
+          <div className="depts-grid-container">
+            <h2 className="depts-grid-title">
+              YOUR JOURNEY.<br />YOUR DEPARTMENT.
+            </h2>
 
+            {/* Grid Layout */}
+            <div className="depts-cards-grid">
+              {deptList.map((dept) => {
+                const Icon = dept.icon
+                const isSelected = showSubpageSelector === dept.code
 
-      {/* Section 4: Departments Grid */}
-      <section className="depts-grid-section">
-        <div className="depts-grid-container">
-          <h2 className="depts-grid-title">
-            YOUR JOURNEY.<br />YOUR DEPARTMENT.
-          </h2>
-
-          {/* Grid Layout */}
-          <div className="depts-cards-grid">
-            {deptList.map((dept) => {
-              const Icon = dept.icon
-              const isSelected = showSubpageSelector === dept.code
-
-              return (
-                <div 
-                  key={dept.code} 
-                  className={`dept-grid-card ${dept.subpages ? 'has-subpages' : ''} ${isSelected ? 'selector-active' : ''}`}
-                  onClick={() => handleCardClick(dept)}
-                >
-                  {/* Top section: cinematic photograph with rounded top corners */}
-                  <div className="dept-card-header-visual">
-                    <img src={dept.image} className="dept-card-img" alt={dept.name} />
-                    <div className="dept-card-img-overlay" />
-                    
-                    {/* Organic wave separator SVG */}
-                    <svg className="dept-card-wave-separator" viewBox="0 0 340 60" preserveAspectRatio="none">
-                      <path d="M0,20 Q170,50 340,20 L340,60 L0,60 Z" fill="#5B3518" />
-                      <path d="M0,20 Q170,50 340,20" fill="none" stroke="#C8923A" strokeWidth="2" opacity="0.8" />
-                    </svg>
-                  </div>
-
-                  {/* Circular Floating Icon Badge */}
-                  <div className="dept-card-icon-badge">
-                    <Icon size={28} className="dept-card-badge-icon" />
-                  </div>
-
-                  {/* Bottom section: Content */}
-                  <div className="dept-card-body-content">
-                    <h3 className="dept-card-title">{dept.name}</h3>
-                    
-                    {/* Golden underline with dot */}
-                    <div className="dept-title-line-container">
-                      <div className="dept-title-line" />
-                      <div className="dept-title-dot" />
+                return (
+                  <div 
+                    key={dept.code} 
+                    className={`dept-grid-card ${dept.subpages ? 'has-subpages' : ''} ${isSelected ? 'selector-active' : ''}`}
+                    onClick={() => handleCardClick(dept)}
+                  >
+                    {/* Top section: cinematic photograph with rounded top corners */}
+                    <div className="dept-card-header-visual">
+                      <img src={dept.image} className="dept-card-img" alt={dept.name} />
+                      <div className="dept-card-img-overlay" />
+                      
+                      {/* Organic wave separator SVG */}
+                      <svg className="dept-card-wave-separator" viewBox="0 0 340 60" preserveAspectRatio="none">
+                        <path d="M0,20 Q170,50 340,20 L340,60 L0,60 Z" fill="#5B3518" />
+                        <path d="M0,20 Q170,50 340,20" fill="none" stroke="#C8923A" strokeWidth="2" opacity="0.8" />
+                      </svg>
                     </div>
 
-                    <p className="dept-card-desc">{dept.desc}</p>
+                    {/* Circular Floating Icon Badge */}
+                    <div className="dept-card-icon-badge">
+                      <Icon size={28} className="dept-card-badge-icon" />
+                    </div>
 
-                    {/* Actions Links */}
-                    <div className="dept-card-actions-wrapper" onClick={(e) => e.stopPropagation()}>
-                      {dept.subpages ? (
-                        <div className="subpage-options-container">
+                    {/* Bottom section: Content */}
+                    <div className="dept-card-body-content">
+                      <h3 className="dept-card-title">{dept.name}</h3>
+                      
+                      {/* Golden underline with dot */}
+                      <div className="dept-title-line-container">
+                        <div className="dept-title-line" />
+                        <div className="dept-title-dot" />
+                      </div>
+
+                      <p className="dept-card-desc">{dept.desc}</p>
+
+                      {/* Actions Links */}
+                      <div className="dept-card-actions-wrapper" onClick={(e) => e.stopPropagation()}>
+                        {dept.subpages ? (
+                          <div className="subpage-options-container">
+                            <button 
+                              className="view-details-trigger"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCardClick(dept);
+                              }}
+                            >
+                              <span>{isSelected ? 'Close' : 'Explore'}</span>
+                              <ArrowRight size={15} className={`arrow-icon ${isSelected ? 'rotated' : ''}`} />
+                            </button>
+                            
+                            <AnimatePresence>
+                              {isSelected && (
+                                <motion.div 
+                                  className="subpage-selector-bubble"
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 10 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <p className="selector-title">Select specialization:</p>
+                                  <div className="selector-btn-grid">
+                                    {dept.subpages.map((sub) => (
+                                      <button 
+                                        key={sub.key} 
+                                        className="subpage-choice-btn"
+                                        onClick={() => {
+                                          setActivePageKey(sub.key)
+                                          setShowSubpageSelector(null)
+                                        }}
+                                      >
+                                        {sub.label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        ) : (
                           <button 
-                            className="view-details-trigger"
+                            className="view-details-trigger" 
                             onClick={(e) => {
                               e.stopPropagation();
                               handleCardClick(dept);
                             }}
                           >
-                            <span>{isSelected ? 'Close' : 'Explore'}</span>
-                            <ArrowRight size={15} className={`arrow-icon ${isSelected ? 'rotated' : ''}`} />
+                            <span>Explore</span>
+                            <ArrowRight size={15} className="arrow-icon" />
                           </button>
-                          
-                          <AnimatePresence>
-                            {isSelected && (
-                              <motion.div 
-                                className="subpage-selector-bubble"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.2 }}
-                              >
-                                <p className="selector-title">Select specialization:</p>
-                                <div className="selector-btn-grid">
-                                  {dept.subpages.map((sub) => (
-                                    <button 
-                                      key={sub.key} 
-                                      className="subpage-choice-btn"
-                                      onClick={() => {
-                                        setActivePageKey(sub.key)
-                                        setShowSubpageSelector(null)
-                                      }}
-                                    >
-                                      {sub.label}
-                                    </button>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <button 
-                          className="view-details-trigger" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleCardClick(dept);
-                          }}
-                        >
-                          <span>Explore</span>
-                          <ArrowRight size={15} className="arrow-icon" />
-                        </button>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Footer Section */}
-      <Footer onOpenAdmin={() => navigate('/admin')} />
+        {/* Footer Section */}
+        <Footer onOpenAdmin={() => navigate('/admin')} showOnlyCopyright={true} />
+      </div>
 
       {/* Full-screen Detailed Overlay */}
-      <DetailOverlay pageKey={activePageKey} onClose={() => setActivePageKey(null)} />
+      <DetailOverlay pageKey={activePageKey} onClose={() => setActivePageKey(null)} onNavigate={setActivePageKey} />
 
       {/* Faculty Profile Overlay */}
       {activeFacultyProfile && (

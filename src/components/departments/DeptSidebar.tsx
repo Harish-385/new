@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { BookOpen } from 'lucide-react'
 
 // Define the 10 categories from the user's requirements
@@ -149,16 +149,8 @@ export const DeptSidebar: React.FC<DeptSidebarProps> = ({
   // Filter out categories that are empty for this department
   const activeCategories = sidebarCategories.filter(cat => groupedKeys[cat].length > 0)
 
-  // Expand the category of the active subpage automatically on mount or active page change
-  useEffect(() => {
-    if (activeSubpage) {
-      const activeCat = getCategoryForKey(activeSubpage)
-      setExpandedCategories(prev => ({
-        ...prev,
-        [activeCat]: true
-      }))
-    }
-  }, [activeSubpage])
+
+
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => ({
@@ -183,24 +175,10 @@ export const DeptSidebar: React.FC<DeptSidebarProps> = ({
             <div 
               key={cat} 
               className="dept-sidebar-category-group"
-              onMouseEnter={() => {
-                setExpandedCategories(prev => ({
-                  ...prev,
-                  [cat]: true
-                }))
-              }}
-              onMouseLeave={() => {
-                if (!hasActiveChild) {
-                  setExpandedCategories(prev => ({
-                    ...prev,
-                    [cat]: false
-                  }))
-                }
-              }}
             >
               <button
                 type="button"
-                className={`dept-sidebar-link dept-sidebar-header-link ${hasActiveChild ? 'has-active-child' : ''}`}
+                className={`dept-sidebar-link dept-sidebar-header-link ${hasActiveChild ? 'has-active-child' : ''} ${isExpanded ? 'expanded' : ''}`}
                 onClick={() => toggleCategory(cat)}
               >
                 <span className="bullet">»</span>

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X, ArrowRight, BookOpen, GraduationCap, Briefcase, Trophy, Cpu, Phone, Mail, MapPin, User, ExternalLink, type LucideIcon } from 'lucide-react'
+import { ChevronDown, Menu, X, ArrowRight, BookOpen, GraduationCap, Briefcase, Trophy, Cpu, Phone, Mail, MapPin, User, ExternalLink, Target, ShieldCheck, GitMerge, Users, BarChart2, Lightbulb, FileText, ChevronRight, Home, type LucideIcon } from 'lucide-react'
 import { Button } from './ui/button'
 import { navItems } from '../data/constants'
 import { useNavigate } from 'react-router-dom'
+import Footer from './Footer'
 
 // Complete sub-menu items mapping categories to their scraped page keys
 const subMenus: Record<string, { label: string; key?: string; href?: string; subItems?: { label: string; key: string }[] }[]> = {
@@ -17,12 +18,6 @@ const subMenus: Record<string, { label: string; key?: string; href?: string; sub
     { label: "Chairman's Message", key: 'about-chairman-message' },
     { label: "Director's Message", key: 'about-director-message' },
     { label: "Principal's Message", key: 'about-principal-message' },
-    { 
-      label: 'e-Governance', 
-      subItems: [
-        { label: 'RIT e-Projects', key: 'about-rit-e-projects' }
-      ] 
-    },
   ],
   'Admission': [
     { label: 'Admission Policy / Eligibility', key: 'admission-policy' },
@@ -146,13 +141,177 @@ const menuHighlights: Record<string, { title: string; desc: string; stat?: strin
 
 interface HeaderProps {
   onSelectPage: (key: string | null) => void
+  style?: React.CSSProperties
 }
 
-export default function Header({ onSelectPage }: HeaderProps) {
+// Rich Placements Drawer Content matching the RIT reference design
+function PlacementsDrawerContent({ onSelectPage, onClose }: { onSelectPage: (key: string) => void; onClose: () => void }) {
+  const placementCards = [
+    { num: '01', icon: <Briefcase size={22} />, title: 'Training & Placement Centre', desc: 'Learn about our dedicated Training & Placement Centre and top recruiter details.', key: 'placements-training-centre' },
+    { num: '02', icon: <Target size={22} />, title: 'Objective', desc: 'Understand our goals and commitment towards student placements.', key: 'placements-objective' },
+    { num: '03', icon: <ShieldCheck size={22} />, title: 'Placement Policy', desc: 'Read our placement policy and guidelines for a transparent process.', key: 'placements-policy' },
+    { num: '04', icon: <GitMerge size={22} />, title: 'Placement Procedure', desc: 'Step-by-step process followed for successful placements.', key: 'placements-procedure' },
+    { num: '05', icon: <Users size={22} />, title: 'Hiring Process', desc: 'How recruiters connect with us and hire the right talent.', key: 'placements-hiring-process' },
+    { num: '06', icon: <GraduationCap size={22} />, title: 'Placement Training', desc: 'Training programs and skill development to make you industry ready.', key: 'placements-training' },
+    { num: '07', icon: <BarChart2 size={22} />, title: 'Placement Statistics', desc: 'Year-wise placement statistics and top recruiter details (2016–2025).', key: 'placements-list' },
+    { num: '08', icon: <Lightbulb size={22} />, title: 'Ideathon', desc: 'Innovate, ideate, implement. Our Ideathon initiatives.', key: 'placements-ideathon' },
+    { num: '09', icon: <FileText size={22} />, title: 'Placement Prospectus', desc: 'Download the placement prospectus for detailed insights.', key: 'placements-prospectus' },
+  ]
+
+  const stats = [
+    { value: '90+', label: 'Recruiters' },
+    { value: '2500+', label: 'Students Placed' },
+    { value: '₹7.5 LPA', label: 'Highest Package' },
+    { value: '₹3.6 LPA', label: 'Average Package' },
+    { value: '100%', label: 'Placement Support' },
+  ]
+
+  const recruiterLogos: { name: string; logo?: string; svg?: boolean; accenture?: boolean }[] = [
+    { name: 'TCS', logo: '/companies/tcs.jpeg' },
+    { name: 'Infosys', svg: true },
+    { name: 'Wipro', logo: '/companies/wipro.jpeg' },
+    { name: 'Accenture', accenture: true },
+    { name: 'Cognizant', logo: '/companies/cognizant.jpeg' },
+    { name: 'HCL', logo: '/companies/hcl.jpeg' },
+    { name: 'Zoho', logo: '/companies/zoho.jpeg' },
+    { name: 'Ramco', logo: '/companies/ramco.jpeg' },
+  ]
+
+  const whyRecruitPoints = [
+    'Industry Ready Talent',
+    'Strong Technical Foundation',
+    'Problem Solvers',
+    'Adaptable & Quick Learners',
+    'Team Players',
+    'Innovative Thinkers',
+  ]
+
+  return (
+    <div className="placements-drawer-content">
+      {/* Hero Section */}
+      <div className="placements-drawer-hero">
+        <div className="placements-drawer-hero-text">
+          {/* Breadcrumbs */}
+          <div className="depts-breadcrumbs" style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', cursor: 'pointer' }}>
+            <span onClick={() => onClose()} className="breadcrumb-link" style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#8c7e70', fontWeight: 650 }}><Home size={13} /> Home</span>
+            <ChevronRight size={11} className="breadcrumb-arrow" style={{ color: '#8c7e70' }} />
+            <span className="breadcrumb-current" style={{ color: '#c9a227', fontWeight: 700 }}>Placements</span>
+          </div>
+
+          <span className="placements-drawer-eyebrow">PLACEMENTS @ RIT</span>
+          <h2 className="placements-drawer-headline">
+            Your Future.<br />
+
+            Our <span className="placements-drawer-highlight">Commitment.</span>
+          </h2>
+          <p className="placements-drawer-lead">
+            Empowering students with opportunities, industry connections and the right skills to build successful careers and become future leaders.
+          </p>
+          <div className="placements-drawer-hero-badges">
+            <span className="pd-badge"><Briefcase size={13} /> Strong Industry Connections</span>
+            <span className="pd-badge"><Target size={13} /> Career Guidance</span>
+            <span className="pd-badge"><GraduationCap size={13} /> Skill Development</span>
+          </div>
+        </div>
+        <div className="placements-drawer-hero-img">
+          <img src="/clg1.png" alt="RIT Campus" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+          <div className="placements-drawer-quote-card">
+            <span className="pd-quote-icon">"</span>
+            <p>We bridge talent with opportunity and shape careers that make a difference.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Placement Info Grid */}
+      <div className="placements-drawer-section">
+        <div className="pd-section-label">PLACEMENT INFORMATION</div>
+        <div className="pd-cards-grid">
+          {placementCards.map((card) => (
+            <button
+              key={card.key}
+              className="pd-card"
+              onClick={() => { onSelectPage(card.key); onClose(); }}
+            >
+              <span className="pd-card-num">{card.num}</span>
+              <div className="pd-card-icon">{card.icon}</div>
+              <h4 className="pd-card-title">{card.title}</h4>
+              <p className="pd-card-desc">{card.desc}</p>
+              <span className="pd-card-link">View More <ArrowRight size={12} /></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="placements-drawer-section">
+        <div className="pd-section-label">PLACEMENT HIGHLIGHTS (2016–2025)</div>
+        <div className="pd-stats-bar">
+          {stats.map((stat, i) => (
+            <div key={i} className="pd-stat-item">
+              <div className="pd-stat-value">{stat.value}</div>
+              <div className="pd-stat-label">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Two Column Bottom Section */}
+      <div className="pd-bottom-row">
+        {/* Top Recruiters */}
+        <div className="pd-recruiters-col">
+          <div className="pd-section-label">TOP RECRUITERS</div>
+          <div className="pd-recruiter-logos">
+            {recruiterLogos.map((r) => (
+              <div key={r.name} className="pd-recruiter-logo-cell">
+                {r.svg ? (
+                  <svg viewBox="0 0 120 30" style={{ height: '18px', width: 'auto' }}>
+                    <text x="0" y="21" fill="#007cc3" fontFamily="'Outfit', Arial, sans-serif" fontSize="22" fontWeight="900">Infosys</text>
+                  </svg>
+                ) : r.accenture ? (
+                  <svg viewBox="0 0 130 30" style={{ height: '18px', width: 'auto' }}>
+                    <text x="0" y="21" fill="#000" fontFamily="'Outfit', Arial, sans-serif" fontSize="19" fontWeight="800">accenture</text>
+                    <path d="M106 7 L112 14 L106 21" fill="none" stroke="#A12BFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <img src={r.logo} alt={r.name} />
+                )}
+              </div>
+            ))}
+          </div>
+          <button className="pd-view-all-btn" onClick={() => { onSelectPage('placements-training-centre'); onClose(); }}>
+            View All Recruiters <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {/* Why Recruit Ritians */}
+        <div className="pd-why-col">
+          <div className="pd-section-label" style={{ color: '#c9a227' }}>WHY RECRUIT RITIANS?</div>
+          <div className="pd-why-grid">
+            {whyRecruitPoints.map((pt, i) => (
+              <div key={i} className="pd-why-item">
+                <span className="pd-why-dot" />
+                {pt}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* RIT Makers Copyright Footer at the bottom of the drawer content */}
+      <div style={{ marginTop: '24px', width: '100%' }}>
+        <Footer showOnlyCopyright={true} onOpenAdmin={() => {}} />
+      </div>
+    </div>
+
+  )
+}
+
+export default function Header({ onSelectPage, style }: HeaderProps) {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({})
+
 
   const toggleMobileExpand = (label: string) => {
     setMobileExpanded(prev => ({ ...prev, [label]: !prev[label] }))
@@ -160,7 +319,7 @@ export default function Header({ onSelectPage }: HeaderProps) {
 
   return (
     <>
-      <header className="site-header">
+      <header className="site-header" style={style}>
         {/* Top Info Bar */}
         <div className="header-top-bar">
           <div className="top-bar-container">
@@ -229,6 +388,18 @@ export default function Header({ onSelectPage }: HeaderProps) {
                         setActiveSubmenu(null)
                         return
                       }
+                      if (item.label === 'About') {
+                        e.preventDefault()
+                        onSelectPage('info-centre')
+                        setActiveSubmenu(null)
+                        return
+                      }
+                      if (item.label === 'Admission') {
+                        e.preventDefault()
+                        onSelectPage('admission')
+                        setActiveSubmenu(null)
+                        return
+                      }
                       if (items) {
                         e.preventDefault()
                         setActiveSubmenu(prev => prev === item.label ? null : item.label)
@@ -277,7 +448,7 @@ export default function Header({ onSelectPage }: HeaderProps) {
 
             {/* Drawer panel */}
             <motion.div
-              className="nav-drawer-panel"
+              className={`nav-drawer-panel${activeSubmenu === 'Placements' ? ' nav-drawer-panel--placements' : ''}`}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -287,7 +458,8 @@ export default function Header({ onSelectPage }: HeaderProps) {
               <div className="drawer-glow-1" />
               <div className="drawer-glow-2" />
 
-              <div className="drawer-header">
+              <div className="drawer-inner-wrap" style={{ width: '100%', maxWidth: activeSubmenu === 'Placements' ? '1100px' : '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div className="drawer-header">
                 <div>
                   <span className="drawer-category-meta">EXPLORE SECTION</span>
                   <h2>{activeSubmenu}</h2>
@@ -304,94 +476,105 @@ export default function Header({ onSelectPage }: HeaderProps) {
               </div>
 
               <div className="drawer-content">
-                {/* Showcase Highlight Card */}
-                {menuHighlights[activeSubmenu] && (
-                  <div className="drawer-highlight">
-                    <div className="highlight-card">
-                      <div className="highlight-icon">
-                        {(() => {
-                          const Icon = menuHighlights[activeSubmenu].icon
-                          return <Icon size={24} />
-                        })()}
-                      </div>
-                      <h3>{menuHighlights[activeSubmenu].title}</h3>
-                      <p>{menuHighlights[activeSubmenu].desc}</p>
-                      {menuHighlights[activeSubmenu].stat && (
-                        <div className="highlight-badge">
-                          {menuHighlights[activeSubmenu].stat}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Submenu Links list */}
-                <div className="drawer-links-section">
-                  <h3>Available Sections</h3>
-                  <div className="drawer-links-list">
-                    {subMenus[activeSubmenu].map((subItem, index) => {
-                      const itemNumber = String(index + 1).padStart(2, '0')
-                      
-                      if (subItem.subItems) {
-                        return (
-                          <div key={subItem.label} className="drawer-subgroup">
-                            <div className="drawer-subgroup-title">
-                              {subItem.label}
-                            </div>
-                            <div className="drawer-subgroup-items">
-                              {subItem.subItems.map((lvl2Item) => (
-                                <button
-                                  key={lvl2Item.key}
-                                  onClick={() => {
-                                    onSelectPage(lvl2Item.key)
-                                    setActiveSubmenu(null)
-                                  }}
-                                  className="drawer-dropdown-link level-2-link"
-                                >
-                                  <span className="text">{lvl2Item.label}</span>
-                                  <ArrowRight size={14} className="link-arrow" />
-                                </button>
-                              ))}
-                            </div>
+                {activeSubmenu === 'Placements' ? (
+                  <PlacementsDrawerContent
+                    onSelectPage={onSelectPage}
+                    onClose={() => setActiveSubmenu(null)}
+                  />
+                ) : (
+                  <>
+                    {/* Showcase Highlight Card */}
+                    {menuHighlights[activeSubmenu] && (
+                      <div className="drawer-highlight">
+                        <div className="highlight-card">
+                          <div className="highlight-icon">
+                            {(() => {
+                              const Icon = menuHighlights[activeSubmenu].icon
+                              return <Icon size={24} />
+                            })()}
                           </div>
-                        )
-                      }
+                          <h3>{menuHighlights[activeSubmenu].title}</h3>
+                          <p>{menuHighlights[activeSubmenu].desc}</p>
+                          {menuHighlights[activeSubmenu].stat && (
+                            <div className="highlight-badge">
+                              {menuHighlights[activeSubmenu].stat}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
 
-                      if (subItem.href) {
-                        return (
-                          <a
-                            key={subItem.label}
-                            href={subItem.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="drawer-dropdown-link"
-                            onClick={() => setActiveSubmenu(null)}
-                          >
-                            <span className="link-number">{itemNumber}</span>
-                            <span className="text">{subItem.label}</span>
-                            <ExternalLink size={16} className="link-external-icon" style={{ marginLeft: 'auto', opacity: 0.6 }} />
-                          </a>
-                        )
-                      }
+                    {/* Submenu Links list */}
+                    <div className="drawer-links-section">
+                      <h3>Available Sections</h3>
+                      <div className="drawer-links-list">
+                        {subMenus[activeSubmenu].map((subItem, index) => {
+                          const itemNumber = String(index + 1).padStart(2, '0')
+                          
+                          if (subItem.subItems) {
+                            return (
+                              <div key={subItem.label} className="drawer-subgroup">
+                                <div className="drawer-subgroup-title">
+                                  {subItem.label}
+                                </div>
+                                <div className="drawer-subgroup-items">
+                                  {subItem.subItems.map((lvl2Item) => (
+                                    <button
+                                      key={lvl2Item.key}
+                                      onClick={() => {
+                                        onSelectPage(lvl2Item.key)
+                                        setActiveSubmenu(null)
+                                      }}
+                                      className="drawer-dropdown-link level-2-link"
+                                    >
+                                      <span className="text">{lvl2Item.label}</span>
+                                      <ArrowRight size={14} className="link-arrow" />
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )
+                          }
 
-                      return (
-                        <button
-                          key={subItem.key}
-                          onClick={() => {
-                            if (subItem.key) onSelectPage(subItem.key)
-                            setActiveSubmenu(null)
-                          }}
-                          className="drawer-dropdown-link"
-                        >
-                          <span className="link-number">{itemNumber}</span>
-                          <span className="text">{subItem.label}</span>
-                          <ArrowRight size={16} className="link-arrow" />
-                        </button>
-                      )
-                    })}
-                  </div>
+                          if (subItem.href) {
+                            return (
+                              <a
+                                key={subItem.label}
+                                href={subItem.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="drawer-dropdown-link"
+                                onClick={() => setActiveSubmenu(null)}
+                              >
+                                <span className="link-number">{itemNumber}</span>
+                                <span className="text">{subItem.label}</span>
+                                <ExternalLink size={16} className="link-external-icon" style={{ marginLeft: 'auto', opacity: 0.6 }} />
+                              </a>
+                            )
+                          }
+
+                          return (
+                            <button
+                              key={subItem.key}
+                              onClick={() => {
+                                if (subItem.key) onSelectPage(subItem.key)
+                                setActiveSubmenu(null)
+                              }}
+                              className="drawer-dropdown-link"
+                            >
+                              <span className="link-number">{itemNumber}</span>
+                              <span className="text">{subItem.label}</span>
+                              <ArrowRight size={16} className="link-arrow" />
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </>
+                )}
                 </div>
               </div>
+
             </motion.div>
           </>
         )}

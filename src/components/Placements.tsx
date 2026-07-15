@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useCMS } from './CMSContext'
-import { ArrowRight, Handshake } from 'lucide-react'
+import { ArrowRight, Handshake, Users } from 'lucide-react'
 
 interface Company {
   name: string
@@ -10,82 +10,175 @@ interface Company {
 
 export default function Placements() {
   const { isAuthenticated } = useCMS()
+  const [activePage, setActivePage] = useState(0)
 
-  const companies: Company[] = useMemo(() => [
-    { name: 'Zoho', logo: '/companies/zoho.jpeg', categories: ['IT & Software'] },
-    { name: 'Rane', logo: '/companies/rane.jpeg', categories: ['Core', 'Manufacturing'] },
-    { name: 'Ramco', logo: '/companies/ramco.jpeg', categories: ['IT & Software', 'Core'] },
-    { name: 'Kaar Technologies', logo: '/companies/kaar.jpeg', categories: ['IT & Software', 'Consulting'] },
-    { name: 'ICANIO Technologies', logo: '/companies/icanio.jpeg', categories: ['IT & Software'] },
-    { name: 'Ecoster', logo: '/companies/ecoster.jpeg', categories: ['Core', 'Manufacturing', 'Research'] },
-    { name: 'Brakes India', logo: '/companies/brakesindia.png', categories: ['Core', 'Manufacturing'] },
-    { name: 'FLENDER', logo: '/companies/flender.jpeg', categories: ['Core', 'Manufacturing'] },
-    { name: 'pinnacle', logo: '/companies/pinnacle.jpeg', categories: ['Consulting', 'IT & Software'] },
-    { name: 'alcatel', logo: '/companies/alcatel.jpeg', categories: ['IT & Software'] },
-    { name: 'DATA PATTERNS', logo: '/companies/datapatterns.jpeg', categories: ['Core', 'Research'] },
-    { name: 'Cognizant', logo: '/companies/cognizant.jpeg', categories: ['IT & Software'] },
-    { name: 'Ramco Cements', logo: '/companies/ramco cements.jpeg', categories: ['Core', 'Manufacturing'] },
-    { name: 'TESSOLVE', logo: '/companies/tessolve.jpeg', categories: ['Core', 'Research'] },
-    { name: 'embedUR', logo: '/companies/embed.jpeg', categories: ['IT & Software', 'Research'] },
-    { name: 'Salcomp', logo: '/companies/salcomp.jpeg', categories: ['Core', 'Manufacturing'] },
-    { name: 'ECONSTRUCT', logo: '/companies/econstruct.jpeg', categories: ['Core', 'Consulting'] },
-    { name: 'HCL', logo: '/companies/hcl.jpeg', categories: ['IT & Software'] },
-    { name: 'aspire systems', logo: '/companies/aspire.jpeg', categories: ['IT & Software'] },
-    { name: 'RheinBrücke', logo: '/companies/rhein.jpeg', categories: ['Consulting', 'IT & Software'] },
-    { name: 'solartis', logo: '/companies/solartis.jpeg', categories: ['IT & Software', 'Finance'] },
-    { name: 'tcs', logo: '/companies/tcs.jpeg', categories: ['IT & Software'] },
-    { name: 'WHEELS INDIA', logo: '/companies/wheelsindia.jpeg', categories: ['Core', 'Manufacturing'] },
-    { name: 'wipro', logo: '/companies/wipro.jpeg', categories: ['IT & Software'] },
-    { name: 'Hexaware', logo: '/companies/hexaware.jpeg', categories: ['IT & Software'] },
-    { name: 'Yaskawa', logo: '/companies/yaskawa.jpeg', categories: ['Core', 'Manufacturing'] }
-  ], [])
+  // Automatic slide transition effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActivePage((prev) => (prev + 1) % 3)
+    }, 7000) // Change slides every 7 seconds
+    return () => clearInterval(timer)
+  }, [])
 
-  const filteredCompanies = companies
+  const recruiterPages = [
+    // Page 0 (Prominent mockup list)
+    [
+      { name: 'Zoho', logo: '/companies/zoho.jpeg' },
+      { name: 'Ramco', logo: '/companies/ramco.jpeg' },
+      { name: 'TCS', logo: '/companies/tcs.jpeg' },
+      { name: 'Cognizant', logo: '/companies/cognizant.jpeg' },
+      { name: 'Wipro', logo: '/companies/wipro.jpeg' },
+      { name: 'HCLTech', logo: '/companies/hcl.jpeg' },
+
+      { 
+        name: 'Infosys', 
+        renderSvg: () => (
+          <svg viewBox="0 0 120 30" style={{ height: '20px', width: 'auto', display: 'block' }}>
+            <text x="0" y="21" fill="#007cc3" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="22" fontWeight="900" letterSpacing="-0.5px">Infosys</text>
+          </svg>
+        ) 
+      },
+      { 
+        name: 'Accenture', 
+        renderSvg: () => (
+          <svg viewBox="0 0 120 30" style={{ height: '20px', width: 'auto', display: 'block' }}>
+            <text x="0" y="21" fill="#000000" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="19" fontWeight="800" letterSpacing="-0.5px">accenture</text>
+            <path d="M96 7 L102 14 L96 21" fill="none" stroke="#A12BFF" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) 
+      },
+      { 
+        name: 'Tech Mahindra', 
+        renderSvg: () => (
+          <svg viewBox="0 0 140 30" style={{ height: '20px', width: 'auto', display: 'block' }}>
+            <text x="0" y="15" fill="#000000" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="13" fontWeight="800">Tech</text>
+            <text x="0" y="26" fill="#e51937" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="13" fontWeight="800">Mahindra</text>
+          </svg>
+        )
+      },
+      { name: 'Pinnacle', logo: '/companies/pinnacle.jpeg' },
+      { 
+        name: 'Virtusa', 
+        renderSvg: () => (
+          <svg viewBox="0 0 100 30" style={{ height: '20px', width: 'auto', display: 'block' }}>
+            <text x="0" y="21" fill="#4B4B4D" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="22" fontWeight="800" letterSpacing="-0.5px">virtusa</text>
+          </svg>
+        )
+      },
+      { name: 'Hexaware', logo: '/companies/hexaware.jpeg' },
+
+      { 
+        name: 'L&T Technology Services', 
+        renderSvg: () => (
+          <svg viewBox="0 0 170 30" style={{ height: '18px', width: 'auto', display: 'block' }}>
+            <circle cx="15" cy="15" r="9" fill="none" stroke="#003366" strokeWidth="1.8" />
+            <path d="M12 12 L12 18 L16 18" fill="none" stroke="#003366" strokeWidth="1.8" />
+            <path d="M15 12 L18 12 L18 17" fill="none" stroke="#003366" strokeWidth="1.8" />
+            <text x="32" y="19" fill="#003366" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="11" fontWeight="700">L&T Technology Services</text>
+          </svg>
+        )
+      },
+      { 
+        name: 'Mphasis', 
+        renderSvg: () => (
+          <svg viewBox="0 0 120 30" style={{ height: '22px', width: 'auto', display: 'block' }}>
+            <path d="M4 8 L12 15 L4 22" fill="none" stroke="#D81B60" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M9 8 L17 15 L9 22" fill="none" stroke="#00A8B5" strokeWidth="2.5" strokeLinecap="round" />
+            <text x="24" y="17" fill="#1A1A1A" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="13" fontWeight="800">Mphasis</text>
+            <text x="24" y="24" fill="#666666" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="6.5" fontWeight="600">The Next Applied</text>
+          </svg>
+        )
+      },
+      { name: 'Data Patterns', logo: '/companies/datapatterns.jpeg' },
+      { 
+        name: 'KPIT', 
+        renderSvg: () => (
+          <svg viewBox="0 0 90 30" style={{ height: '20px', width: 'auto', display: 'block' }}>
+            <text x="0" y="21" fill="#000000" fontFamily="'Outfit', 'Helvetica Neue', Arial, sans-serif" fontSize="21" fontWeight="900" letterSpacing="1px">KP!T</text>
+          </svg>
+        )
+      },
+      { name: 'Aspire', logo: '/companies/aspire.jpeg' },
+      { name: 'Yaskawa', logo: '/companies/yaskawa.jpeg' }
+    ],
+    // Page 1
+    [
+      { name: 'Rane', logo: '/companies/rane.jpeg' },
+      { name: 'Kaar Technologies', logo: '/companies/kaar.jpeg' },
+      { name: 'ICANIO Technologies', logo: '/companies/icanio.jpeg' },
+      { name: 'Ecoster', logo: '/companies/ecoster.jpeg' },
+      { name: 'Brakes India', logo: '/companies/brakesindia.png' },
+      { name: 'FLENDER', logo: '/companies/flender.jpeg' },
+
+      { name: 'alcatel', logo: '/companies/alcatel.jpeg' },
+      { name: 'Ramco Cements', logo: '/companies/ramco cements.jpeg' },
+      { name: 'TESSOLVE', logo: '/companies/tessolve.jpeg' },
+      { name: 'embedUR', logo: '/companies/embed.jpeg' },
+      { name: 'Salcomp', logo: '/companies/salcomp.jpeg' },
+      { name: 'ECONSTRUCT', logo: '/companies/econstruct.jpeg' },
+
+      { name: 'RheinBrücke', logo: '/companies/rhein.jpeg' },
+      { name: 'solartis', logo: '/companies/solartis.jpeg' },
+      { name: 'WHEELS INDIA', logo: '/companies/wheelsindia.jpeg' },
+      { name: 'Zoho', logo: '/companies/zoho.jpeg' },
+      { name: 'Ramco', logo: '/companies/ramco.jpeg' },
+      { name: 'TCS', logo: '/companies/tcs.jpeg' }
+    ],
+    // Page 2
+    [
+      { name: 'Cognizant', logo: '/companies/cognizant.jpeg' },
+      { name: 'Wipro', logo: '/companies/wipro.jpeg' },
+      { name: 'HCLTech', logo: '/companies/hcl.jpeg' },
+      { name: 'Pinnacle', logo: '/companies/pinnacle.jpeg' },
+      { name: 'Hexaware', logo: '/companies/hexaware.jpeg' },
+      { name: 'Data Patterns', logo: '/companies/datapatterns.jpeg' },
+
+      { name: 'Aspire', logo: '/companies/aspire.jpeg' },
+      { name: 'Yaskawa', logo: '/companies/yaskawa.jpeg' },
+      { name: 'Rane', logo: '/companies/rane.jpeg' },
+      { name: 'Kaar Technologies', logo: '/companies/kaar.jpeg' },
+      { name: 'FLENDER', logo: '/companies/flender.jpeg' },
+      { name: 'Brakes India', logo: '/companies/brakesindia.png' },
+
+      { name: 'Ramco Cements', logo: '/companies/ramco cements.jpeg' },
+      { name: 'TESSOLVE', logo: '/companies/tessolve.jpeg' },
+      { name: 'embedUR', logo: '/companies/embed.jpeg' },
+      { name: 'Salcomp', logo: '/companies/salcomp.jpeg' },
+      { name: 'Wipro', logo: '/companies/wipro.jpeg' },
+      { name: 'HCLTech', logo: '/companies/hcl.jpeg' }
+    ]
+  ]
 
   return (
     <section className="placements reveal-section" id="placements" style={{
-      padding: '80px 0 120px',
-      background: '#fdf3dc',
+      padding: '80px 0 100px',
+      background: '#FDF3DC',
       position: 'relative',
       overflow: 'hidden'
     }}>
 
-
-
       {/* Top Header Section */}
       <div style={{ textAlign: 'center', marginBottom: '40px', padding: '0 20px' }}>
-        <span style={{
-          fontSize: '0.85rem',
-          color: '#b88e2f',
-          fontWeight: 800,
-          textTransform: 'uppercase',
-          letterSpacing: '2.5px',
-          display: 'block',
-          marginBottom: '8px'
-        }}>
+        <span className="recruiter-tagline">
           BUILDING CAREERS, CONNECTING TALENTS
         </span>
-        <h2 style={{
-          fontFamily: "'Playfair Display', 'Georgia', serif",
-          fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
-          color: '#2d2217',
-          fontWeight: 800,
-          margin: '0 auto 16px',
-          letterSpacing: '0.5px'
-        }}>
+        <h2 className="recruiter-heading-new">
           OUR PROMINENT RECRUITERS
         </h2>
         
-        {/* Diamond Separator Line */}
+        {/* Double Separator Line with Diamond */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '12px',
           margin: '0 auto 24px',
-          width: '240px'
+          width: '280px'
         }}>
-          <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, #b88e2f)' }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, #b88e2f)' }} />
+            <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, #b88e2f)', opacity: 0.6 }} />
+          </div>
           <div style={{
             width: '8px',
             height: '8px',
@@ -93,17 +186,13 @@ export default function Placements() {
             transform: 'rotate(45deg)',
             borderRadius: '1px'
           }} />
-          <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, #b88e2f, transparent)' }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            <div style={{ height: '1px', background: 'linear-gradient(90deg, #b88e2f, transparent)' }} />
+            <div style={{ height: '1px', background: 'linear-gradient(90deg, #b88e2f, transparent)', opacity: 0.6 }} />
+          </div>
         </div>
 
-        <p style={{
-          maxWidth: '680px',
-          margin: '0 auto',
-          color: '#6b5e52',
-          fontSize: '1rem',
-          lineHeight: '1.6',
-          fontWeight: 500
-        }}>
+        <p className="recruiter-desc-new">
           Our students have been placed in top organizations across the globe. <br />
           We are grateful to our recruiters for their continued trust in our talent.
         </p>
@@ -111,118 +200,60 @@ export default function Placements() {
 
       {/* Logo Grid & Callout Container */}
       <div className="recruiter-grid-container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        <div className="recruiter-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(6, 1fr)',
-          gap: '20px',
-          alignItems: 'stretch'
-        }}>
-          {filteredCompanies.map((company, index) => {
-            // Render "Want to Recruit Our Talent" card dynamically as part of the grid flow.
-            // In a 6-column grid, we want to place it at a strategic position (like index 24, just before the last few items).
-            const showCallout = index === 24
-            
-            return (
-              <g key={company.name + index} style={{ display: 'contents' }}>
-                {showCallout && (
-                  <div 
-                    style={{
-                      gridColumn: 'span 3',
-                      background: '#fdf6e9',
-                      border: '1.5px solid rgba(184, 142, 47, 0.25)',
-                      borderRadius: '20px',
-                      padding: '20px 24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '20px',
-                      boxShadow: '0 8px 24px rgba(184, 142, 47, 0.05)'
-                    }}
-                    className="recruit-callout-card"
-                  >
-                    <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      background: '#4a3424',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#ffffff',
-                      flexShrink: 0
-                    }}>
-                      <Handshake size={22} />
+        <div className="recruiter-slider-container">
+          <div 
+            className="recruiter-slider-track"
+            style={{ transform: `translateX(-${activePage * 33.3333}%)` }}
+          >
+            {recruiterPages.map((pageList, pageIdx) => (
+              <div className="recruiter-slide-page" key={pageIdx}>
+                <div className="recruiter-grid-new">
+                  {pageList.map((company, index) => (
+                    <div className="recruiter-cell-new" key={company.name + index}>
+                      {company.renderSvg ? (
+                        company.renderSvg()
+                      ) : (
+                        <img 
+                          src={company.logo} 
+                          alt={`${company.name} Logo`} 
+                          className="recruiter-logo-img-new"
+                        />
+                      )}
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{ margin: '0 0 4px 0', fontSize: '0.92rem', fontWeight: 800, color: '#2d2217' }}>
-                        Want to Recruit Our Talent?
-                      </h4>
-                      <p style={{ margin: '0 0 10px 0', fontSize: '0.78rem', color: '#6b5e52', fontWeight: 500 }}>
-                        Partner with us and build the future together.
-                      </p>
-                      <a 
-                        href="mailto:placement@ritrjpm.ac.in" 
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          background: '#4a3424',
-                          color: '#ffffff',
-                          padding: '6px 16px',
-                          borderRadius: '30px',
-                          fontSize: '0.78rem',
-                          fontWeight: 700,
-                          textDecoration: 'none',
-                          boxShadow: '0 4px 10px rgba(74, 52, 36, 0.25)',
-                          transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
-                      >
-                        Connect With Us <ArrowRight size={12} />
-                      </a>
-                    </div>
-                  </div>
-                )}
-                
-                <div 
-                  className="recruiter-logo-card" 
-                  style={{
-                    background: '#ffffff',
-                    border: '1.2px solid rgba(184, 142, 47, 0.12)',
-                    borderRadius: '16px',
-                    padding: '12px 16px',
-                    height: '76px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 6px 16px rgba(139, 94, 60, 0.02)',
-                    transition: 'all 0.25s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)'
-                    e.currentTarget.style.boxShadow = '0 10px 24px rgba(184, 142, 47, 0.12)'
-                    e.currentTarget.style.borderColor = 'rgba(184, 142, 47, 0.35)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'none'
-                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 94, 60, 0.02)'
-                    e.currentTarget.style.borderColor = 'rgba(184, 142, 47, 0.12)'
-                  }}
-                >
-                  <img 
-                    src={company.logo} 
-                    alt={`${company.name} Logo`} 
-                    style={{ 
-                      maxWidth: '100%', 
-                      maxHeight: '100%', 
-                      objectFit: 'contain'
-                    }} 
-                  />
+                  ))}
                 </div>
-              </g>
-            )
-          })}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Carousel Dots */}
+        <div className="recruiter-dots-new">
+          {[0, 1, 2].map((idx) => (
+            <button 
+              key={idx}
+              className={`recruiter-dot-new ${activePage === idx ? 'active' : ''}`}
+              onClick={() => setActivePage(idx)}
+              style={{ border: 'none', padding: 0, outline: 'none' }}
+              aria-label={`Go to page ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Recruiter Callout Bar */}
+        <div className="recruiter-callout-bar-new">
+          <div className="callout-left-new">
+            <div className="callout-icon-circle-new">
+              <Users size={24} className="callout-icon-new" />
+            </div>
+            <div className="callout-text-new">
+              <h4>WANT TO RECRUIT OUR TALENT?</h4>
+              <p>Partner with us and build the future together.</p>
+            </div>
+          </div>
+          <a href="mailto:placement@ritrjpm.ac.in" className="callout-btn-new">
+            CONNECT WITH US <ArrowRight size={16} />
+          </a>
         </div>
       </div>
 

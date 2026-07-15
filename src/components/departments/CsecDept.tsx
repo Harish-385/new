@@ -247,6 +247,7 @@ export const CsecDept: React.FC<DeptProps> = () => {
 
       {/* Right Scrollable Content Viewport */}
       <main ref={mainRef} className="dept-main-content">
+        <Atom className="dept-watermark" />
         {/* Background Watermark */}
         <Atom className="dept-watermark" />
 
@@ -255,33 +256,13 @@ export const CsecDept: React.FC<DeptProps> = () => {
             DEPARTMENT OF {deptName.toUpperCase().replace('&', 'AND')}
           </div>
           <h1 className="dept-title">{activeSubpage}</h1>
-          {isAuthenticated && (
-            <button
-              onClick={() => setShowEditModal(true)}
-              style={{
-                background: 'rgba(140, 98, 57, 0.1)',
-                border: '1px solid rgba(140, 98, 57, 0.25)',
-                borderRadius: '20px',
-                padding: '6px 14px',
-                color: '#8c6239',
-                fontWeight: 700,
-                fontSize: '12px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                margin: '10px auto'
-              }}
-            >
-              <Edit size={14} /> Edit Subpage Content
-            </button>
-          )}
           <div className="dept-header-divider">
             <GraduationCap size={20} />
           </div>
         </header>
 
         <div className="dept-content-body">
+        <div className="dept-card-container">
           {pdfAttachmentCards.length > 0 && (
             <section className="detail-pdf-section" aria-label={`${activeSubpage} pdf attachments`} style={{ marginBottom: '25px' }}>
               <div className="detail-pdf-grid">
@@ -443,6 +424,7 @@ export const CsecDept: React.FC<DeptProps> = () => {
               <p>No content block found. Click the button above to visit the live department site.</p>
             </div>
           )}
+          </div>
         </div>
       </main>
       

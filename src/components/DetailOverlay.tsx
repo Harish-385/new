@@ -5,7 +5,7 @@ import TiltedCard from './TiltedCard'
 import { useCMS } from './CMSContext'
 import { useState, useEffect, useRef } from 'react'
 import { EditFlatPageModal } from './CMSModals'
-
+import { useNavigate } from 'react-router-dom'
 // Import isolated department components
 import CseDept from './departments/CseDept'
 import EceDept from './departments/EceDept'
@@ -23,6 +23,10 @@ import MathsDept from './departments/MathsDept'
 import EnglishDept from './departments/EnglishDept'
 import IiicPage from './IiicPage'
 import IdeaLabPage from './IdeaLabPage'
+import InfoCentre from './InfoCentre'
+import AdmissionPage from './AdmissionPage'
+import Footer from './Footer'
+
 
 interface ContentItem {
   type: string
@@ -50,24 +54,6 @@ interface DetailOverlayProps {
 }
 
 const sidebarSections: Record<string, { prefix: string; navLabel: string; icon: LucideIcon; links: { label: string; key: string; isHeader?: boolean; href?: string }[] }> = {
-  about: {
-    prefix: 'about-',
-    navLabel: 'About & Governance',
-    icon: ShieldCheck,
-    links: [
-      { label: 'Ramco Group', key: 'about-ramco-group' },
-      { label: 'Trusts', key: 'about-trusts' },
-      { label: 'Governing Council', key: 'about-governing-council' },
-      { label: 'Quality Policy', key: 'about-quality-policy' },
-      { label: 'Information Brochure', key: 'about-information-brochure' },
-      { label: "Founder Chairman's Message", key: 'about-founder-chairman-message' },
-      { label: "Chairman's Message", key: 'about-chairman-message' },
-      { label: "Director's Message", key: 'about-director-message' },
-      { label: "Principal's Message", key: 'about-principal-message' },
-      { label: 'e-Governance', key: 'about-egovernance-header', isHeader: true },
-      { label: 'RIT e-Projects', key: 'about-rit-e-projects' }
-    ]
-  },
   activities: {
     prefix: 'activities-',
     navLabel: 'Activities',
@@ -211,6 +197,7 @@ const messagePageMetadata: Record<string, { name: string; role: string }> = {
 
 export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOverlayProps) {
   const { flatPages, isAuthenticated } = useCMS()
+  const navigate = useNavigate()
   const [showEditModal, setShowEditModal] = useState(false)
   const [trustsFilter, setTrustsFilter] = useState<'all' | 'technical' | 'secondary' | 'primary'>('all')
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
@@ -239,10 +226,8 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
 
   useEffect(() => {
     if (pageKey) {
-      document.body.style.overflow = 'hidden'
-      if (overlayRef.current) {
-        overlayRef.current.scrollTo({ top: 0, behavior: 'smooth' })
-      }
+      // Let window scroll naturally instead of locking it
+      window.scrollTo({ top: 0, behavior: 'auto' })
       
       const isPlacementsList = pageKey.startsWith('placements-list-') || pageKey === 'placements-list'
       if (isPlacementsList) {
@@ -260,11 +245,9 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
       if (pageKey === 'about-rit-e-projects') {
         setExpandedSections(prev => ({ ...prev, 'about-egovernance-header': true }))
       }
-    } else {
-      document.body.style.overflow = ''
     }
     return () => {
-      document.body.style.overflow = ''
+      // Cleanup if needed
     }
   }, [pageKey])
 
@@ -272,7 +255,8 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
   const deptCode = pageKey?.replace('departments-', '') || ''
   const isIiic = !isDept && pageKey?.startsWith('iic-')
   const isIdeaLab = !isDept && pageKey?.startsWith('idealab-')
-  const sidebarSection = !isDept && !isIiic && !isIdeaLab && pageKey
+  const isInfoCentre = pageKey === 'info-centre'
+  const sidebarSection = !isDept && !isIiic && !isIdeaLab && !isInfoCentre && pageKey && !pageKey.startsWith('about-')
     ? Object.values(sidebarSections).find((section) => pageKey.startsWith(section.prefix))
     : undefined
   const isSidebarStyledPage = Boolean(sidebarSection)
@@ -755,21 +739,50 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
         >
           <motion.div
             ref={overlayRef}
-            className={`detail-overlay-content ${isDept || isIiic || isIdeaLab || isSidebarStyledPage ? 'dept-layout' : ''}`}
+            className={`detail-overlay-content ${(pageKey?.startsWith('placements-')) ? 'dept-layout placements-sub-layout' : 'dept-layout'} ${(pageKey === 'info-centre' || pageKey === 'admission') ? 'has-navbar' : ''}`}
             initial={{ y: 50, scale: 0.95 }}
             animate={{ y: 0, scale: 1 }}
             exit={{ y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button className="detail-close-btn" onClick={onClose} aria-label="Close page details">
-              <X />
-            </button>
+            {/* Close Button for all overlay pages */}
+            {pageKey && (
+              <button 
+                className="detail-close-btn" 
+                onClick={() => {
+                  if (pageKey === 'info-centre' || pageKey === 'admission') {
+                    onClose()
+                  } else if (pageKey.startsWith('about-')) {
+                    onNavigate?.('info-centre')
+                  } else if (pageKey.startsWith('admission-') || pageKey.startsWith('academics-')) {
+                    onNavigate?.('admission')
+                  } else {
+                    onClose()
+                  }
+                }} 
+                aria-label="Close"
+              >
+                <X />
+              </button>
+            )}
+
+            {/* Information Centre landing page */}
+            {isInfoCentre && (
+              <InfoCentre onSelectPage={(key) => { onNavigate?.(key) }} onGoHome={() => { onClose(); navigate('/'); }} />
+            )}
+
+            {/* Admission landing page */}
+            {pageKey === 'admission' && (
+              <AdmissionPage onSelectPage={(key) => { onNavigate?.(key) }} onGoHome={() => { onClose(); navigate('/'); }} />
+            )}
 
             {/* Layout for Non-Department flat pages */}
-            {!isDept && !isIiic && !isIdeaLab && (
-              <div className={isSidebarStyledPage ? 'dept-view-container' : undefined}>
+            {!isDept && !isIiic && !isIdeaLab && !isInfoCentre && pageKey !== 'admission' && (
+              <div 
+                className={isSidebarStyledPage ? 'dept-view-container' : undefined}
+                style={!isSidebarStyledPage ? { display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' } : undefined}
+              >
                 {sidebarSection && (
                   <aside className="dept-sidebar">
                     <div className="dept-sidebar-header">
@@ -889,7 +902,10 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                     </nav>
                   </aside>
                 )}
-              <div className={isSidebarStyledPage ? 'dept-main-content' : undefined}>
+              <div 
+                className={isSidebarStyledPage ? 'dept-main-content' : undefined}
+                style={!isSidebarStyledPage ? { display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' } : undefined}
+              >
                 <header className={isSidebarStyledPage ? 'dept-content-header' : 'detail-header'}>
                   <div className="detail-eyebrow">
                     {pageKey?.split('-')[0].toUpperCase()} / {pageKey?.split('-').slice(1).join(' ').toUpperCase()}
@@ -1788,12 +1804,20 @@ export default function DetailOverlay({ pageKey, onClose, onNavigate }: DetailOv
                           <p>No content found for this page. Please refer to the official live website.</p>
                         </div>
                       )}
+                      
+                      {/* Render copyright footer for placements sub-pages */}
+                      {pageKey?.startsWith('placements-') && (
+                        <div style={{ marginTop: '40px', width: '100%' }}>
+                          <Footer showOnlyCopyright={true} onOpenAdmin={() => {}} />
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
               </div>
               </div>
             )}
+
 
             {/* Layout for IIIC pages: styled like a department page with its own sidebar */}
             {isIiic && <IiicPage initialKey={pageKey} onClose={onClose} />}

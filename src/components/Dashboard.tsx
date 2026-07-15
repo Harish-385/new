@@ -7,6 +7,49 @@ import OrbitImages from './OrbitImages'
 import { useCMS } from './CMSContext'
 import { EditStatsModal, EditCampusGalleryModal, AddEditNewsModal } from './CMSModals'
 
+// Scroll-triggered animated counter for statistics values (e.g. "3000+")
+function AnimatedCounter({ value }: { value: string }) {
+  const [count, setCount] = useState(0)
+  const elementRef = useRef<HTMLSpanElement>(null)
+  const targetNumber = parseInt(value.replace(/[^0-9]/g, ''), 10) || 0
+  const suffix = value.replace(/[0-9]/g, '')
+  useEffect(() => {
+    let startTimestamp: number | null = null
+    const duration = 1600
+    let animationFrameId: number
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1)
+      const easeProgress = progress * (2 - progress)
+      setCount(Math.floor(easeProgress * targetNumber))
+      if (progress < 1) {
+        animationFrameId = window.requestAnimationFrame(step)
+      } else {
+        setCount(targetNumber)
+      }
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          animationFrameId = window.requestAnimationFrame(step)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    if (elementRef.current) {
+      observer.observe(elementRef.current)
+    }
+    return () => {
+      observer.disconnect()
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId)
+      }
+    }
+  }, [targetNumber])
+  return <span ref={elementRef}>{count}{suffix}</span>
+}
+
 export default function Dashboard() {
   const { homepageConfig, newsList, galleryVideos, isAuthenticated, deleteNewsItem } = useCMS()
   const [playingIds, setPlayingIds] = useState<Record<string, boolean>>({})
@@ -49,15 +92,20 @@ export default function Dashboard() {
     <section className="home-dashboard" aria-label="RIT overview" style={{ position: 'relative' }}>
       
       <div className="stats-ribbon">
+        <div className="stats-ribbon-left-arrow" />
+        <div className="stats-ribbon-right-arrow" />
         {homepageConfig.stats.map((stat) => {
           const IconComponent = (LucideIcons as any)[stat.icon] || LucideIcons.BookOpen
           return (
             <article className="stat-item" data-tone={stat.tone} key={stat.label || stat.value}>
-              <span><IconComponent /></span>
-              <div>
-                <strong>{stat.value}</strong>
-                {stat.label && <small>{stat.label}</small>}
-              </div>
+              <span className="stat-item-icon-wrapper">
+                <IconComponent />
+              </span>
+              <strong className="stat-item-value">
+                <AnimatedCounter value={stat.value} />
+              </strong>
+              <div className="stat-item-line" />
+              {stat.label && <span className="stat-item-label">{stat.label}</span>}
             </article>
           )
         })}
@@ -160,123 +208,176 @@ export default function Dashboard() {
       </div>
 
       <div className="updates-grid">
-        <section className="events-panel">
-          <div className="panel-title">
-            <h3>Upcoming Events</h3>
-            <a href="#home">View All Events <ArrowRight /></a>
+        <section className="events-panel-new">
+          <div className="panel-header-new events-header-bg">
+            <div className="header-left">
+              <LucideIcons.Calendar className="header-icon" size={18} />
+              <h3>UPCOMING EVENTS</h3>
+            </div>
+            <a href="#home" className="header-link">
+              View All Events <LucideIcons.ArrowRight size={14} />
+            </a>
           </div>
-          <div className="event-list">
-            {events.map(([month, day, title, text, date]) => (
-              <article className="event-card" key={title}>
-                <time>
-                  <span>{month}</span>
-                  <strong>{day}</strong>
-                </time>
-                <div>
-                  <h4>{title}</h4>
-                  <p>{text}</p>
-                  <small>{date}</small>
-                </div>
-              </article>
-            ))}
+
+          <div className="event-list-new">
+            {/* Top row with two cards separated by vertical line */}
+            <div className="event-row-top">
+              {events[0] && (
+                <article className="event-card-new">
+                  <div className="event-time-badge">
+                    <span className="event-month">{events[0][0]}</span>
+                    <strong className="event-day">{events[0][1]}</strong>
+                  </div>
+                  <div className="event-info">
+                    <h4>{events[0][2]}</h4>
+                    <p>{events[0][3]}</p>
+                    <small>{events[0][4]}</small>
+                  </div>
+                </article>
+              )}
+              
+              <div className="event-vertical-divider" />
+
+              {events[1] && (
+                <article className="event-card-new">
+                  <div className="event-time-badge">
+                    <span className="event-month">{events[1][0]}</span>
+                    <strong className="event-day">{events[1][1]}</strong>
+                  </div>
+                  <div className="event-info">
+                    <h4>{events[1][2]}</h4>
+                    <p>{events[1][3]}</p>
+                    <small>{events[1][4]}</small>
+                  </div>
+                </article>
+              )}
+            </div>
+
+            {/* Horizontal Divider */}
+            <div className="event-horizontal-divider" />
+
+            {/* Bottom row containing the third card */}
+            {events[2] && (
+              <div className="event-card-bottom">
+                <article className="event-card-new">
+                  <div className="event-time-badge">
+                    <span className="event-month">{events[2][0]}</span>
+                    <strong className="event-day">{events[2][1]}</strong>
+                  </div>
+                  <div className="event-info">
+                    <h4>{events[2][2]}</h4>
+                    <p>{events[2][3]}</p>
+                    <small>{events[2][4]}</small>
+                  </div>
+                </article>
+              </div>
+            )}
+
+            {/* Giant Calendar Watermark in Background */}
+            <LucideIcons.Calendar className="event-watermark-icon" size={140} />
           </div>
         </section>
 
-        <section className="announcements-panel">
-          <div className="panel-title">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <h3>Announcements</h3>
+        <section className="announcements-panel-new">
+          <div className="panel-header-new announcements-header-bg">
+            <div className="header-left">
+              <LucideIcons.Megaphone className="header-icon" size={18} />
+              <h3>ANNOUNCEMENTS</h3>
               {isAuthenticated && (
                 <button
                   onClick={() => setActiveModal('news_add')}
                   style={{
-                    background: 'rgba(236, 10, 120, 0.1)',
-                    border: '1px solid rgba(236, 10, 120, 0.25)',
+                    background: 'rgba(217, 164, 65, 0.1)',
+                    border: '1px solid rgba(217, 164, 65, 0.25)',
                     borderRadius: '12px',
                     padding: '4px 10px',
-                    color: '#ec0a78',
+                    color: '#D9A441',
                     fontWeight: 700,
                     fontSize: '11px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px'
+                    gap: '4px',
+                    marginLeft: '12px'
                   }}
                 >
                   <Plus size={12} /> Add
                 </button>
               )}
             </div>
-            <a href="#home">View All <ArrowRight /></a>
+            <a href="#home" className="header-link gold-link">
+              View All <LucideIcons.ArrowRight size={14} />
+            </a>
           </div>
-          <div className="announcement-list">
+
+          <div className="announcement-list-new">
             {newsList.map((item) => {
               const dateObj = new Date(item.published_at)
               const day = String(dateObj.getDate()).padStart(2, '0')
               const month = dateObj.toLocaleString('default', { month: 'short' }).toUpperCase()
               return (
-                <article className="announcement-card" key={item.id}>
-                  <time>
-                    <strong>{day}</strong>
-                    <span>{month}</span>
-                  </time>
-                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flex: 1 }}>
-                    {item.thumbnail_url && (
-                      <img
-                        src={item.thumbnail_url}
-                        alt="News thumbnail"
-                        style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)' }}
-                      />
-                    )}
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                        <h4 style={{ margin: 0 }}>{item.title}</h4>
-                        {isAuthenticated && (
-                          <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
-                            <button
-                              onClick={() => {
-                                setEditingNewsItem(item)
-                                setActiveModal('news_edit')
-                              }}
-                              style={{
-                                background: 'transparent',
-                                border: 'none',
-                                color: 'rgba(255,255,255,0.6)',
-                                cursor: 'pointer',
-                                padding: '2px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                              title="Edit Announcement"
-                            >
-                              <Edit size={14} />
-                            </button>
-                            <button
-                              onClick={() => {
-                                if (confirm('Are you sure you want to delete this announcement?')) {
-                                  deleteNewsItem(item.id)
-                                }
-                              }}
-                              style={{
-                                background: 'transparent',
-                                border: 'none',
-                                color: 'rgba(244,63,94,0.6)',
-                                cursor: 'pointer',
-                                padding: '2px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                              }}
-                              title="Delete Announcement"
-                            >
-                              <Trash size={14} />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      <p>{item.summary}</p>
+                <article className="announcement-card-new" key={item.id}>
+                  <div className="announcement-time-badge">
+                    <strong className="announcement-day">{day}</strong>
+                    <span className="announcement-month">{month}</span>
+                  </div>
+
+                  {item.thumbnail_url && (
+                    <img
+                      src={item.thumbnail_url}
+                      alt="News thumbnail"
+                      className="announcement-thumbnail"
+                    />
+                  )}
+
+                  <div className="announcement-content">
+                    <div className="announcement-header-row">
+                      <h4>{item.title}</h4>
+                      {isAuthenticated && (
+                        <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto', flexShrink: 0 }}>
+                          <button
+                            onClick={() => {
+                              setEditingNewsItem(item)
+                              setActiveModal('news_edit')
+                            }}
+                            style={{
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'rgba(255,255,255,0.6)',
+                              cursor: 'pointer',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                            title="Edit Announcement"
+                          >
+                            <Edit size={14} />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm('Are you sure you want to delete this announcement?')) {
+                                deleteNewsItem(item.id)
+                              }
+                            }}
+                            style={{
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'rgba(244,63,94,0.6)',
+                              cursor: 'pointer',
+                              padding: '2px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                            title="Delete Announcement"
+                          >
+                            <Trash size={14} />
+                          </button>
+                        </div>
+                      )}
                     </div>
+                    <p>{item.summary}</p>
                   </div>
                 </article>
               )
